@@ -28,11 +28,11 @@ public class DriveTrain {
         rightDrive = RobotMap.rightDrive;
         rightDrive2 = RobotMap.rightDrive2;
 
-        leftDrive.setInverted(false);
+        leftDrive.setInverted(true);
         leftDrive2.follow(leftDrive);
         leftDrive2.setInverted(InvertType.FollowMaster);
 
-        rightDrive.setInverted(false);
+        rightDrive.setInverted(true);
         rightDrive2.follow(rightDrive);
         rightDrive2.setInverted(InvertType.FollowMaster);
 

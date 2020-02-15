@@ -29,31 +29,31 @@ public class DriveTele implements ILoopable{
 
     }
 
-    public void onLoop() {
+     public void onLoop() {
 
-         if(_joystick.getRawButton(5)) {
+        if(_joystick.getRawButton(5)) {
 
-             _drive.driveDirect(_joystick.getRawAxis(1)*-20, _joystick.getRawAxis(5)*20);
+              _drive.driveDirect(_joystick.getRawAxis(1)*-.20, _joystick.getRawAxis(5)*.20);
 
-         }
+          }
 
-         else if(_joystick.getRawButton(6)) {
+          else if(_joystick.getRawButton(6)) {
 
              _drive.driveDirect(_joystick.getRawAxis(1)*-1, _joystick.getRawAxis(5)*1);
 
-         }
+          }
 
-         else {
+          else {
 
-            _drive.driveDirect(_joystick.getRawAxis(1)*-60, _joystick.getRawAxis(5)*60);
+            _drive.driveDirect(_joystick.getRawAxis(1)*-.60, _joystick.getRawAxis(5)*.60);
 
-         }
+          }
 
-         if(_joystick.getRawButton(13)) {
+        //  if(_joystick.getRawButton(13)) {
 
-             _drive.resetSensors(20);
+        //      _drive.resetSensors(20);
 
-         }
+        //  }
 
     }
 

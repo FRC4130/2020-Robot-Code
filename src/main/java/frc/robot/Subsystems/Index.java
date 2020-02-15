@@ -50,6 +50,12 @@ public class Index {
         index4.setNeutralMode(NeutralMode.Brake);
         index5.setNeutralMode(NeutralMode.Brake);
 
+        index1.setInverted(false);
+        index2.setInverted(true);
+        index3.setInverted(true);
+        index4.setInverted(true);
+        index5.setInverted(true);
+
     }
 
     public void SmartDashboard() {
@@ -79,7 +85,7 @@ public class Index {
     
            }
     
-           else if(index2.getSensorCollection().getAnalogInRaw() > 90) {
+           else if(index2.getSensorCollection().getAnalogInRaw() > 20) {
     
             index1.set(ControlMode.PercentOutput, .50);
     
@@ -90,13 +96,13 @@ public class Index {
     
            }
     
-           if(index2.getSensorCollection().getAnalogInRaw() > 90) {
+           if(index2.getSensorCollection().getAnalogInRaw() > 20) {
     
             index2.set(ControlMode.PercentOutput, .50);
     
            }
     
-           else if(index3.getSensorCollection().getAnalogInRaw() > 90) {
+           else if(index3.getSensorCollection().getAnalogInRaw() > 20) {
     
             index2.set(ControlMode.PercentOutput, .50);
     

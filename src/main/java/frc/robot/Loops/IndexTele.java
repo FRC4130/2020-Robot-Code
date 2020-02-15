@@ -15,6 +15,8 @@ public class IndexTele implements ILoopable{
     IntakePosition _IntakePosition;
     Joystick _joystick;
 
+    boolean indexMove;
+
     public IndexTele() {
 
         _index = Subsystems.index;
@@ -34,25 +36,43 @@ public class IndexTele implements ILoopable{
 
     public void onLoop() {
 
+         if(_joystick.getRawButton(5)) {
+
+             _index.runIndex();
+             _index.Intake(-.60);
+             _IntakePosition.set(_IntakePosition.Sucking);
+
+         }
+
+         else {
+
+           _index.stopIndex();
+           _index.Intake(0);
+           _IntakePosition.set(_IntakePosition.Stored);
+
+         }
+
+         _index.SmartDashboard();
+
+            indexMove = _joystick.getRawButton(5);
+
         if(_joystick.getRawButton(5)) {
 
-            _index.runIndex();
-            _index.Intake(-.60);
+            updateIntakeSolenoid();
+
+        }
+
+    }
+
+    private void updateIntakeSolenoid() {
+
+        if(indexMove) {
             _IntakePosition.set(_IntakePosition.Sucking);
 
         }
 
         else {
-
-          _index.stopIndex();
-          _index.Intake(0);
-          _IntakePosition.set(_IntakePosition.Stored);
-
-        }
-
-        if(_joystick.getRawButton(6)) {
-
-            _index.runIndex();
+            _IntakePosition.set(_IntakePosition.Stored);
 
         }
 
@@ -69,6 +89,7 @@ public class IndexTele implements ILoopable{
 
         _index.stopIndex();
         _index.setIndexNeutralMode(NeutralMode.Coast);
+        _IntakePosition.set(_IntakePosition.Stored);
 
 
     }
