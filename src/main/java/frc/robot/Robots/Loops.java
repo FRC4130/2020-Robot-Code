@@ -7,6 +7,7 @@ import frc.robot.Loops.DriveDistance;
 import frc.robot.Loops.DriveRotate;
 import frc.robot.Loops.DriveTele;
 import frc.robot.Loops.IndexTele;
+import frc.robot.Subsystems.*;
 
 public class Loops {
 
@@ -16,18 +17,36 @@ public class Loops {
 
         teleop.add(new DriveTele());
         teleop.add(new IndexTele());
+        teleop.add(new Turret());
 
         System.out.println("Scheduled");
 
     }
 
-    public static void sTest(SequentialScheduler auton) {
+    public static void sTest(SequentialScheduler test) {
 
-        auton.add(new DriveRotate(90));
-        auton.add(new DriveDistance(300));
+        test.add(new DriveRotate(90));
+        test.add(new DriveDistance(300));
 
 
 
+    }
+
+    public static void RightAuton(SequentialScheduler Rightauton ) {
+
+
+
+    }
+
+    public static void MiddleAuton(SequentialScheduler Middleauton) {
+
+
+    }
+
+    public static void LeftAuton(SequentialScheduler Leftauton) {
+
+
+        
     }
 
 

@@ -90,8 +90,6 @@ public class RobotMap {
         Index4 = new TalonSRX(kIndex4ID);
         Index5 = new TalonSRX(kIndex5ID);
 
-
-
         //Joysticks
         driverJoystick = new Joystick(kDriverJoysickID);
         operatorJoystick = new Joystick(kOperatorJoystickID);

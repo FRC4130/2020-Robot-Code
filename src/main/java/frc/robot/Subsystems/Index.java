@@ -1,9 +1,7 @@
 package frc.robot.Subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
@@ -19,9 +17,6 @@ public class Index {
     private TalonSRX index4;
     private TalonSRX index5;
 
-    private TalonFX shooter1;
-    private TalonFX shooter2;
-
     private VictorSPX intake;
 
     public Index() {
@@ -33,16 +28,7 @@ public class Index {
         index4 = RobotMap.Index4;
         index5 = RobotMap.Index5;
 
-        shooter1 = RobotMap.Shooter1;
-        shooter2 = RobotMap.Shooter2;
-
         intake = RobotMap.Intake;
-
-        shooter1.setInverted(true);
-        shooter2.follow(shooter1);
-        shooter2.setInverted(InvertType.OpposeMaster);
-
-        shooter1.setNeutralMode(NeutralMode.Coast);
 
         index1.setNeutralMode(NeutralMode.Brake);
         index2.setNeutralMode(NeutralMode.Brake);
@@ -131,13 +117,13 @@ public class Index {
     
            }
     
-           if(index4.getSensorCollection().getAnalogInRaw() > 90) {
+           if(index4.getSensorCollection().getAnalogInRaw() > 2200) {
     
             index4.set(ControlMode.PercentOutput, .50);
     
            }
     
-           else if (index5.getSensorCollection().getAnalogInRaw() > 90) {
+           else if (index5.getSensorCollection().getAnalogInRaw() > 100) {
     
             index4.set(ControlMode.PercentOutput, .50);
     
@@ -149,7 +135,7 @@ public class Index {
     
            }
     
-           if (index5.getSensorCollection().getAnalogInRaw() > 90) {
+           if (index5.getSensorCollection().getAnalogInRaw() > 100) {
     
             index5.set(ControlMode.PercentOutput, .50);
     
