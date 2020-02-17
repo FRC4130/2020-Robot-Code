@@ -49,6 +49,7 @@ public class Configs {
         turret.slot0.kD = 0;
         turret.motionAcceleration = 200;
         turret.motionCruiseVelocity = 200;
+
     }
 
     public Configs get() {

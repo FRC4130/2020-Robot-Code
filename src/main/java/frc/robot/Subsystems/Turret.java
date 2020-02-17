@@ -12,12 +12,15 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Robots.RobotMap;
+import frc.robot.Robots.Subsystems;
 
 public class Turret implements ILoopable{
 
     TalonSRX turret;
     TalonFX shootDrive;
     TalonFX shootDrive2;
+
+    Index _index;
 
     Joystick _Joystick;
 
@@ -37,6 +40,7 @@ public class Turret implements ILoopable{
         shootDrive = RobotMap.Shooter1;
         shootDrive2 = RobotMap.Shooter2;
 
+        _index = Subsystems.index;
         _Joystick = RobotMap.operatorJoystick;
 
     }
@@ -52,7 +56,7 @@ public class Turret implements ILoopable{
       shootDrive2.configPeakOutputReverse(-1.0, kTimeoutMS);
       shootDrive2.follow(shootDrive);
       turret.setInverted(false);
-      shootDrive.setInverted(true);
+      shootDrive.setInverted(false);
       shootDrive2.setInverted(InvertType.OpposeMaster);
       turret.setNeutralMode(NeutralMode.Brake);
       shootDrive.setNeutralMode(NeutralMode.Coast);
@@ -74,6 +78,7 @@ public class Turret implements ILoopable{
             if (m_LimelightHasValidTarget) {
                 turret.set(ControlMode.PercentOutput, m_LimelightSteerCommand);
                 shootDrive.set(ControlMode.PercentOutput, .7);
+                _index.shootMode();
             }    
             else {
                 NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0);
@@ -82,10 +87,10 @@ public class Turret implements ILoopable{
                 shootDrive.set(ControlMode.PercentOutput, 0);
             }
         }    
-        else if (_Joystick.getRawButton(5)){
+        else if (_Joystick.getRawButton(7)){
             turret.set(ControlMode.PercentOutput, -.2);
         }
-        else if (_Joystick.getRawButton(6)){
+        else if (_Joystick.getRawButton(8)){
             turret.set(ControlMode.PercentOutput, .2);
         }
         else if (_Joystick.getRawButton(13)){
