@@ -46,6 +46,7 @@ public class DriveDistance implements ILoopable{
 
         _drive.setPosLeft(distanceNative);
         _drive.setPosRight(distanceNative);
+        _drive.SmartDashboard();
 
     }
 

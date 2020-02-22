@@ -28,6 +28,8 @@ public class DriveTrain {
         rightDrive = RobotMap.rightDrive;
         rightDrive2 = RobotMap.rightDrive2;
 
+        pigeon = RobotMap.pigeon;
+
         leftDrive.setInverted(true);
         leftDrive2.follow(leftDrive);
         leftDrive2.setInverted(InvertType.FollowMaster);
@@ -37,7 +39,7 @@ public class DriveTrain {
         rightDrive2.setInverted(InvertType.FollowMaster);
 
         leftDrive.setSensorPhase(true);
-        rightDrive.setSensorPhase(false);
+        rightDrive.setSensorPhase(true);
 
         leftDrive.setNeutralMode(NeutralMode.Brake);
         rightDrive.setNeutralMode(NeutralMode.Brake);
@@ -49,6 +51,7 @@ public class DriveTrain {
         leftDrive.selectProfileSlot(0, 1);
         rightDrive.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice());
         rightDrive.selectProfileSlot(0, 1);
+
     }
 
     public void setNeutralMode(NeutralMode nm) {

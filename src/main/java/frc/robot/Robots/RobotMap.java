@@ -3,6 +3,7 @@ package frc.robot.Robots;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
@@ -19,6 +20,8 @@ public class RobotMap {
 
     public static TalonFX Shooter1;
     public static TalonFX Shooter2;
+
+    public static PigeonIMU pigeon;
 
     public static TalonSRX turret;
 
@@ -73,6 +76,8 @@ public class RobotMap {
         rightDrive = new TalonFX(kRightDriveID);
         rightDrive2 = new TalonFX(kRightDrive2ID);
 
+        //Pigeon
+        pigeon = new PigeonIMU(1);
         //Intake
         Intake = new VictorSPX(kIntakeMotorID);
 

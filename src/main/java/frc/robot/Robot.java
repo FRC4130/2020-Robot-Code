@@ -7,8 +7,12 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.schedulers.ConcurrentScheduler;
+import java.util.ArrayList;
 
+import com.ctre.phoenix.schedulers.ConcurrentScheduler;
+import com.ctre.phoenix.schedulers.SequentialScheduler;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,32 +23,86 @@ import frc.robot.Robots.Subsystems;
 public class Robot extends TimedRobot {
 
   ConcurrentScheduler teleop;
-  ConcurrentScheduler auton;
+
+  SequentialScheduler autonTest;
+  SequentialScheduler autonRight;
+  SequentialScheduler autonMiddle;
+  SequentialScheduler autonLeft;
+  SequentialScheduler AutonFarLeft;
+
+  int target1i = 0;
+  int target2i = 0;
+  int target3i = 0;
+  int target4i = 0;
+
+  ArrayList<String> target1 = new ArrayList<String>();
+
+  int posi = 0;
 
   @Override
   public void robotInit() {
+
+    target1.add("Target not set (auton)");
+
 
     RobotMap.Init();
     Subsystems.Init();
 
   }
 
-
-  @Override
-  public void robotPeriodic() {
-
-    SmartDashboard.putNumber("Battery Voltage", RobotController.getBatteryVoltage());
-
-  }
-
-
   @Override
   public void autonomousInit() {
+
+    autonTest = new SequentialScheduler(0);
+    
+    autonRight = new SequentialScheduler(0);
+    autonMiddle = new SequentialScheduler(0);
+    autonLeft = new SequentialScheduler(0);
+    AutonFarLeft = new SequentialScheduler(0);
+
+    switch (posi) {
+
+      case 0: Loops.sTest(autonTest);
+
+      case 1: Loops.RightAuton(autonRight);
+
+      case 2: Loops.MiddleAuton(autonMiddle);
+
+      case 3: Loops.LeftAuton(autonLeft);
+
+      case 4: Loops.FarLeftAuton(AutonFarLeft);
+
+    }
+
+    autonTest.start();
+    autonRight.start();
+    autonMiddle.start();
+    autonLeft.start();
+    AutonFarLeft.start();
 
   }
 
   @Override
   public void autonomousPeriodic() {
+
+  }
+
+  @Override
+  public void disabledPeriodic() {
+
+    if(RobotMap.driverJoystick.getRawButtonPressed(11)) {
+
+      posi++;
+
+    }
+
+  }
+
+  @Override
+  public void robotPeriodic() {
+
+    SmartDashboard.putNumber("Battery Voltage", RobotController.getBatteryVoltage());
+    SmartDashboard.putNumber("Match Time", DriverStation.getInstance().getMatchTime());
 
   }
 

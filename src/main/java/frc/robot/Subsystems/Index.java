@@ -46,24 +46,11 @@ public class Index {
 
     public void SmartDashboard() {
 
-        double Index1Value = Math.abs(5*(index1.getSensorCollection().getAnalogIn()/4.883));
-        double Index2Value = Math.abs(5*(index2.getSensorCollection().getAnalogIn()/4.883));        
-        double Index3Value = Math.abs(5*(index3.getSensorCollection().getAnalogIn()/4.883)); 
-        double Index4Value = Math.abs(5*(index4.getSensorCollection().getAnalogIn()/4.883)); 
-        double Index5Value = Math.abs(5*(index5.getSensorCollection().getAnalogIn()/4.883)); 
-
-        //Math Version of Sensors
-        SmartDashboard.putNumber("Index 1 Sensor Value", Index1Value);
-        SmartDashboard.putNumber("Index 2 Sensor Value", Index2Value);
-        SmartDashboard.putNumber("Index 3 Sensor Value", Index3Value);
-        SmartDashboard.putNumber("Index 4 Sensor Value", Index4Value);
-        SmartDashboard.putNumber("Index 5 Sensor Value", Index5Value);
-
-        SmartDashboard.putNumber("Index 1", index1.getSensorCollection().getAnalogIn());
-        SmartDashboard.putNumber("Index 2", index2.getSensorCollection().getAnalogIn());
-        SmartDashboard.putNumber("Index 3", index3.getSensorCollection().getAnalogIn());
-        SmartDashboard.putNumber("Index 4", index4.getSensorCollection().getAnalogIn());
-        SmartDashboard.putNumber("Index 5", index5.getSensorCollection().getAnalogIn());
+        SmartDashboard.putNumber("Index 1 Sensors", index1.isRevLimitSwitchClosed());
+        SmartDashboard.putNumber("Index 2 Sensors", index2.isRevLimitSwitchClosed());
+        SmartDashboard.putNumber("Index 3 Sensors", index3.isRevLimitSwitchClosed());
+        SmartDashboard.putNumber("Index 4 Sensors", index4.isRevLimitSwitchClosed());
+        SmartDashboard.putNumber("Index 5 Sensors", index5.isRevLimitSwitchClosed());
     }
 
     public void setIndexNeutralMode(NeutralMode nm) {
@@ -78,15 +65,15 @@ public class Index {
 
     public void runIndex() {
 
-        if(index1.getSensorCollection().getAnalogInRaw() > 20) {
+        if(index1.isRevLimitSwitchClosed() == 0) {
 
-            index1.set(ControlMode.PercentOutput, .50);
+            index1.set(ControlMode.PercentOutput, 1);
     
            }
     
-           else if(index2.getSensorCollection().getAnalogInRaw() > 10) {
+           else if(index2.isRevLimitSwitchClosed() == 0) {
     
-            index1.set(ControlMode.PercentOutput, .50);
+            index1.set(ControlMode.PercentOutput, 1);
     
            }
     
@@ -95,15 +82,15 @@ public class Index {
     
            }
     
-           if(index2.getSensorCollection().getAnalogInRaw() > 10) {
+           if(index2.isRevLimitSwitchClosed() == 0) {
     
-            index2.set(ControlMode.PercentOutput, .50);
+            index2.set(ControlMode.PercentOutput, 1);
     
            }
     
-           else if(index3.getSensorCollection().getAnalogInRaw() > 60) {
+           else if(index3.isRevLimitSwitchClosed() == 0) {
     
-            index2.set(ControlMode.PercentOutput, .50);
+            index2.set(ControlMode.PercentOutput, 1);
     
            }
     
@@ -112,15 +99,15 @@ public class Index {
     
            }
     
-           if(index3.getSensorCollection().getAnalogInRaw() > 60) {
+           if(index3.isRevLimitSwitchClosed() == 0) {
     
-            index3.set(ControlMode.PercentOutput, .50);
+            index3.set(ControlMode.PercentOutput, 1);
     
            }
     
-           else if(index4.getSensorCollection().getAnalogInRaw() > 75) {
+           else if(index4.isRevLimitSwitchClosed() == 0) {
     
-            index3.set(ControlMode.PercentOutput, .50);
+            index3.set(ControlMode.PercentOutput, 1);
     
            }
     
@@ -130,15 +117,15 @@ public class Index {
     
            }
     
-           if(index4.getSensorCollection().getAnalogInRaw() > 75) {
+           if(index4.isRevLimitSwitchClosed() == 0) {
     
-            index4.set(ControlMode.PercentOutput, .50);
+            index4.set(ControlMode.PercentOutput, 1);
     
            }
     
-           else if (index5.getSensorCollection().getAnalogInRaw() > 60) {
+           else if (index5.isRevLimitSwitchClosed() == 0) {
     
-            index4.set(ControlMode.PercentOutput, .50);
+            index4.set(ControlMode.PercentOutput, 1);
     
            }
     
@@ -148,7 +135,7 @@ public class Index {
     
            }
     
-           if (index5.getSensorCollection().getAnalogInRaw() > 60) {
+           if (index5.isRevLimitSwitchClosed() == 0) {
     
             index5.set(ControlMode.PercentOutput, .50);
     
@@ -160,11 +147,6 @@ public class Index {
     
            }
     
-    }
-
-    public void Shoot() {
-        
-
     }
 
     public void Intake(double intakePower) {
@@ -184,12 +166,97 @@ public class Index {
     }
 
     public void shootMode() {
+
+        if(index1.isRevLimitSwitchClosed() == 0) {
+
+            index1.set(ControlMode.PercentOutput, 1);
+    
+           }
+    
+           else if(index2.isRevLimitSwitchClosed() == 0) {
+    
+            index1.set(ControlMode.PercentOutput, 1);
+    
+           }
+    
+           else {
+            index1.set(ControlMode.PercentOutput, 0);
+    
+           }
+    
+           if(index2.isRevLimitSwitchClosed() == 0) {
+    
+            index2.set(ControlMode.PercentOutput, 1);
+    
+           }
+    
+           else if(index3.isRevLimitSwitchClosed() == 0) {
+    
+            index2.set(ControlMode.PercentOutput, 1);
+    
+           }
+    
+           else {
+            index2.set(ControlMode.PercentOutput, 0);
+    
+           }
+    
+           if(index3.isRevLimitSwitchClosed() == 0) {
+    
+            index3.set(ControlMode.PercentOutput, 1);
+    
+           }
+    
+           else if(index4.isRevLimitSwitchClosed() == 0) {
+    
+            index3.set(ControlMode.PercentOutput, 1);
+    
+           }
+    
+           else {
+    
+            index3.set(ControlMode.PercentOutput, 0);
+    
+           }
+    
+           if(index4.isRevLimitSwitchClosed() == 0) {
+    
+            index4.set(ControlMode.PercentOutput, 1);
+    
+           }
+    
+           else if (index5.isRevLimitSwitchClosed() == 0) {
+    
+            index4.set(ControlMode.PercentOutput, 1);
+    
+           }
+    
+           else {
+    
+            index4.set(ControlMode.PercentOutput, 0);
+    
+           }
+    
+           if (index5.isRevLimitSwitchClosed() == 0) {
+    
+            index5.set(ControlMode.PercentOutput, 1);
+    
+           }
+    
+           else {
+    
+            
+            index5.set(ControlMode.PercentOutput, 1);
+    
+           }
+    }
+
+    public void PurgeMode() {
         index1.set(ControlMode.PercentOutput, .70);
         index2.set(ControlMode.PercentOutput, .70);
         index3.set(ControlMode.PercentOutput, .70);
         index4.set(ControlMode.PercentOutput, .70);
         index5.set(ControlMode.PercentOutput, .70);
-
     }
 
 }  

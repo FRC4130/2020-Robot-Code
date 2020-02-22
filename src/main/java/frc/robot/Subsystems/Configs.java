@@ -35,7 +35,7 @@ public class Configs {
         rightDrive.motionCruiseVelocity = 200;
 
         /* --- Shooter --- */
-        shooter.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice();
+        shooter.primaryPID.selectedFeedbackSensor = FeedbackDevice.CTRE_MagEncoder_Relative;
         shooter.slot0.kF = 0;
         shooter.slot0.kP = 0;
         shooter.slot0.kD = 0;

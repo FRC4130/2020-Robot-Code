@@ -49,5 +49,10 @@ public class Loops {
         
     }
 
+    public static void FarLeftAuton(SequentialScheduler FarLeftauton) {
+
+        
+    }
+
 
 }
