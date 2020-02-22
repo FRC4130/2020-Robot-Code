@@ -2,7 +2,6 @@ package frc.robot.Robots;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -25,8 +24,6 @@ public class RobotMap {
 
     public static TalonSRX turret;
 
-    public static VictorSPX Intake;
-
     public static TalonSRX Index1;
     public static TalonSRX Index2;
     public static TalonSRX Index3;
@@ -45,8 +42,6 @@ public class RobotMap {
     public static final int kLeftDrive2ID = 2;
     public static final int kRightDriveID = 3;
     public static final int kRightDrive2ID = 4;
-
-    public static final int kIntakeMotorID = 1;
 
     public static final int kIndex1ID = 5;
     public static final int kIndex2ID = 6;
@@ -78,8 +73,6 @@ public class RobotMap {
 
         //Pigeon
         pigeon = new PigeonIMU(1);
-        //Intake
-        Intake = new VictorSPX(kIntakeMotorID);
 
         //Shooter
         Shooter1 = new TalonFX(kShooter1ID);

@@ -28,8 +28,6 @@ public class Index {
         index4 = RobotMap.Index4;
         index5 = RobotMap.Index5;
 
-        intake = RobotMap.Intake;
-
         index1.setNeutralMode(NeutralMode.Brake);
         index2.setNeutralMode(NeutralMode.Brake);
         index3.setNeutralMode(NeutralMode.Brake);
@@ -151,7 +149,7 @@ public class Index {
 
     public void Intake(double intakePower) {
 
-        intake.set(ControlMode.PercentOutput, intakePower);
+        index1.set(ControlMode.PercentOutput, intakePower);
 
     }
 
