@@ -36,9 +36,9 @@ public class Configs {
 
         /* --- Shooter --- */
         shooter.primaryPID.selectedFeedbackSensor = FeedbackDevice.CTRE_MagEncoder_Relative;
-        shooter.slot0.kF = 0;
-        shooter.slot0.kP = 0;
-        shooter.slot0.kD = 0;
+        shooter.slot0.kF = 0.052;
+        shooter.slot0.kP = 0.59;
+        shooter.slot0.kD = 12;
         shooter.motionAcceleration = 200;
         shooter.motionCruiseVelocity = 200;
 

@@ -88,6 +88,13 @@ public class DriveTrain {
 
     }
 
+    public void RampRate(double Seconds) {
+
+        leftDrive.configClosedloopRamp(Seconds);
+        rightDrive.configClosedloopRamp(Seconds);
+
+    }
+
     public void setMagic(int cruiseVelocity, int acceleration) {
 
         leftDrive.configMotionCruiseVelocity(cruiseVelocity);

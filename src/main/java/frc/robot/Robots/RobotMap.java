@@ -20,6 +20,9 @@ public class RobotMap {
     public static TalonFX Shooter1;
     public static TalonFX Shooter2;
 
+    public static TalonFX ClimberLeft;
+    public static TalonFX ClimberRight;
+
     public static PigeonIMU pigeon;
 
     public static TalonSRX turret;
@@ -29,6 +32,8 @@ public class RobotMap {
     public static TalonSRX Index3;
     public static TalonSRX Index4;
     public static TalonSRX Index5;
+
+    public static TalonSRX ColorWheel;
 
     /* --- Solenoid Objects --- */
     public static DoubleSolenoid intakeLift;
@@ -51,6 +56,9 @@ public class RobotMap {
     public static final int kShooter1ID = 10;
     public static final int kShooter2ID = 11;
     public static final int kTurretID = 12;
+    public static final int kColorWheelID = 13;
+    public static final int kClimberLeftID = 14;
+    public static final int kClimberRightID = 15;
 
     /* --- Solenoid Objects --- */
     public static final int kIntakeDownID = 0;
@@ -72,7 +80,7 @@ public class RobotMap {
         rightDrive2 = new TalonFX(kRightDrive2ID);
 
         //Pigeon
-        pigeon = new PigeonIMU(1);
+        pigeon = new PigeonIMU(kTurretID);
 
         //Shooter
         Shooter1 = new TalonFX(kShooter1ID);
@@ -87,6 +95,13 @@ public class RobotMap {
         Index3 = new TalonSRX(kIndex3ID);
         Index4 = new TalonSRX(kIndex4ID);
         Index5 = new TalonSRX(kIndex5ID);
+
+        //Climber
+        ClimberLeft = new TalonFX(kClimberLeftID);
+        ClimberRight = new TalonFX(kClimberRightID);
+
+        //Color Wheel
+        ColorWheel = new TalonSRX(kColorWheelID);
 
         //Joysticks
         driverJoystick = new Joystick(kDriverJoysickID);

@@ -7,8 +7,8 @@ import frc.robot.Robots.RobotMap;
 public class IntakePosition {
 
     public DoubleSolenoid intakePosition;
-    public final Value Stored = Value.kForward;
-    public final Value Sucking = Value.kReverse;
+    public final Value Stored = Value.kReverse;
+    public final Value Sucking = Value.kForward;
 
     public IntakePosition() {
 

@@ -11,7 +11,6 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robots.RobotMap;
 import frc.robot.Robots.Subsystems;
@@ -37,6 +36,8 @@ public class Turret implements ILoopable{
     double m_LimelightDriveCommand = 0.0;
     double m_LimelightSteerCommand = 0.0;
     boolean m_LimelightHasValidTarget = false;
+
+    double WantedPipeline;
 
     public Turret() {
 
@@ -77,14 +78,21 @@ public class Turret implements ILoopable{
 
         LimelightTracking();
 
-        if (_Joystick.getRawButton(2) && RobotController.getBatteryVoltage() > 9) {
-            NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(4);
+        PipelineSwitch();
+
+        if (_Joystick.getRawButton(2)/* && RobotController.getBatteryVoltage() > 9*/) {
+            // NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);
             NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(0);
             NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
 
+            PipelineSwitch();
+            double area = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
+            double targetVeloity = Math.abs((-328.09*area)+7859.9);  //(-1435.4*area)+10673
+            SmartDashboard.putNumber("Target Velocity", targetVeloity);
+
             if (m_LimelightHasValidTarget) {
                 turret.set(ControlMode.PercentOutput, m_LimelightSteerCommand);
-                shootDrive.set(ControlMode.PercentOutput, .42);
+                shootDrive.set(ControlMode.Velocity,  targetVeloity);
                 /* 
 
                     85% = Zone 3
@@ -93,7 +101,7 @@ public class Turret implements ILoopable{
 
                 */ 
 
-                if(shootDrive.getSelectedSensorVelocity() > 2000) {
+                if(shootDrive.getSelectedSensorVelocity() >  Math.abs(((-328.09*area)+7859.9)-50)) {
                     _index.shootMode();
 
                 }
@@ -104,7 +112,7 @@ public class Turret implements ILoopable{
 
             }    
             else {
-                NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(4);
+                // NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);
                 NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(0);
                 NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
                 shootDrive.set(ControlMode.PercentOutput, 50);
@@ -112,7 +120,7 @@ public class Turret implements ILoopable{
             }
         }
         else if (_Joystick.getRawButton(3)) {
-            shootDrive.set(ControlMode.PercentOutput, 55);
+            shootDrive.set(ControlMode.PercentOutput, .55);
             _index.shootMode();
 
         }
@@ -124,12 +132,12 @@ public class Turret implements ILoopable{
             _index.PurgeMode();
         } 
         else if (_Joystick.getRawButton(13)){
-            NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(4);
+            PipelineSwitch();
             NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(0);
             NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
         }  
         else{
-            NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(4);
+            NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0);
             NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(0);
             NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
 
@@ -148,12 +156,13 @@ public class Turret implements ILoopable{
         //     turret.set(ControlMode.PercentOutput, 0);
         // }
 
-        SmartDashboard.putNumber("RPM Shooter", Math.abs(((ActualVelocity*600)/2048)*1.88));
+        SmartDashboard.putNumber("RPM Shooter", Math.abs(((ActualVelocity*600)/2048)*2));
+        SmartDashboard.putNumber("TA Value of Limelight", NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0));
     }
 
     public void LimelightTracking() {
         // These numbers must be tuned...
-        final double STEER_K = 0.04; // How hard to turn toward the target
+        final double STEER_K = 0.03; // How hard to turn toward the target
         final double DRIVE_K = 0.40; // How hard to drive fwd toward the target
         final double DESIRED_TARGET_AREA = 1.2; // Area of the target when the robot reaches the wall
         final double MAX_DRIVE = .70; // Speed limit so we don't drive too fast
@@ -169,7 +178,7 @@ public class Turret implements ILoopable{
         }
         m_LimelightHasValidTarget = true;
         // Start with proportional steering
-        double steer_cmd = tx * STEER_K; //ZONE 1 = 11.5
+        double steer_cmd = tx * STEER_K; //ZONE 1 = 1.15
         m_LimelightSteerCommand = steer_cmd;
         // Try to drive forward until the target area reaches our desired area
         double drive_cmd = (DESIRED_TARGET_AREA - ta) * DRIVE_K;
@@ -178,6 +187,40 @@ public class Turret implements ILoopable{
         drive_cmd = MAX_DRIVE;
         }
         m_LimelightDriveCommand = drive_cmd;
+    }
+
+    public void PipelineSwitch() {
+
+        if(_Joystick.getPOV() > -1) {
+
+            if(_Joystick.getPOV() == 90) {
+            WantedPipeline = 1; 
+
+            }
+            else if(_Joystick.getPOV() == 180) {
+            WantedPipeline = 2;
+            }
+            else if(_Joystick.getPOV() == 270) {
+            WantedPipeline = 3;
+            }
+            else if(_Joystick.getPOV() == 0) {
+            WantedPipeline = 4;
+            }
+        }
+        
+        if(WantedPipeline == 1) {
+            NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);
+        }
+        else if(WantedPipeline == 2) {
+            NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(2);
+        }
+        else if(WantedPipeline == 3) {
+            NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(3);
+        }
+        else if(WantedPipeline == 4) {
+            NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(4);
+        }
+        SmartDashboard.putNumber("Pipeline Zone", WantedPipeline);
     }
 
     public boolean isDone() {

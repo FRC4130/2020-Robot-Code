@@ -3,7 +3,6 @@ package frc.robot.Subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robots.RobotMap;
@@ -16,8 +15,6 @@ public class Index {
     private TalonSRX index3;
     private TalonSRX index4;
     private TalonSRX index5;
-
-    private VictorSPX intake;
 
     public Index() {
 
@@ -65,13 +62,13 @@ public class Index {
 
         if(index1.isRevLimitSwitchClosed() == 0) {
 
-            index1.set(ControlMode.PercentOutput, 1);
+            index1.set(ControlMode.PercentOutput, .60);
     
            }
     
            else if(index2.isRevLimitSwitchClosed() == 0) {
     
-            index1.set(ControlMode.PercentOutput, 1);
+            index1.set(ControlMode.PercentOutput, .60);
     
            }
     
@@ -82,13 +79,13 @@ public class Index {
     
            if(index2.isRevLimitSwitchClosed() == 0) {
     
-            index2.set(ControlMode.PercentOutput, 1);
+            index2.set(ControlMode.PercentOutput, .60);
     
            }
     
            else if(index3.isRevLimitSwitchClosed() == 0) {
     
-            index2.set(ControlMode.PercentOutput, 1);
+            index2.set(ControlMode.PercentOutput, .60);
     
            }
     
@@ -99,13 +96,13 @@ public class Index {
     
            if(index3.isRevLimitSwitchClosed() == 0) {
     
-            index3.set(ControlMode.PercentOutput, 1);
+            index3.set(ControlMode.PercentOutput, .60);
     
            }
     
            else if(index4.isRevLimitSwitchClosed() == 0) {
     
-            index3.set(ControlMode.PercentOutput, 1);
+            index3.set(ControlMode.PercentOutput, .60);
     
            }
     
@@ -117,13 +114,13 @@ public class Index {
     
            if(index4.isRevLimitSwitchClosed() == 0) {
     
-            index4.set(ControlMode.PercentOutput, 1);
+            index4.set(ControlMode.PercentOutput, .60);
     
            }
     
            else if (index5.isRevLimitSwitchClosed() == 0) {
     
-            index4.set(ControlMode.PercentOutput, 1);
+            index4.set(ControlMode.PercentOutput, .60);
     
            }
     
@@ -135,7 +132,7 @@ public class Index {
     
            if (index5.isRevLimitSwitchClosed() == 0) {
     
-            index5.set(ControlMode.PercentOutput, .50);
+            index5.set(ControlMode.PercentOutput, .60);
     
            }
     
@@ -167,13 +164,13 @@ public class Index {
 
         if(index1.isRevLimitSwitchClosed() == 0) {
 
-            index1.set(ControlMode.PercentOutput, 1);
+            index1.set(ControlMode.PercentOutput, .60);
     
            }
     
            else if(index2.isRevLimitSwitchClosed() == 0) {
     
-            index1.set(ControlMode.PercentOutput, 1);
+            index1.set(ControlMode.PercentOutput, .60);
     
            }
     
@@ -184,13 +181,13 @@ public class Index {
     
            if(index2.isRevLimitSwitchClosed() == 0) {
     
-            index2.set(ControlMode.PercentOutput, 1);
+            index2.set(ControlMode.PercentOutput, .60);
     
            }
     
            else if(index3.isRevLimitSwitchClosed() == 0) {
     
-            index2.set(ControlMode.PercentOutput, 1);
+            index2.set(ControlMode.PercentOutput, .60);
     
            }
     
@@ -201,13 +198,13 @@ public class Index {
     
            if(index3.isRevLimitSwitchClosed() == 0) {
     
-            index3.set(ControlMode.PercentOutput, 1);
+            index3.set(ControlMode.PercentOutput, .60);
     
            }
     
            else if(index4.isRevLimitSwitchClosed() == 0) {
     
-            index3.set(ControlMode.PercentOutput, 1);
+            index3.set(ControlMode.PercentOutput, .60);
     
            }
     
@@ -219,13 +216,13 @@ public class Index {
     
            if(index4.isRevLimitSwitchClosed() == 0) {
     
-            index4.set(ControlMode.PercentOutput, 1);
+            index4.set(ControlMode.PercentOutput, .60);
     
            }
     
            else if (index5.isRevLimitSwitchClosed() == 0) {
     
-            index4.set(ControlMode.PercentOutput, 1);
+            index4.set(ControlMode.PercentOutput, .60);
     
            }
     
@@ -237,14 +234,14 @@ public class Index {
     
            if (index5.isRevLimitSwitchClosed() == 0) {
     
-            index5.set(ControlMode.PercentOutput, 1);
+            index5.set(ControlMode.PercentOutput, .60);
     
            }
     
            else {
     
             
-            index5.set(ControlMode.PercentOutput, 1);
+            index5.set(ControlMode.PercentOutput, .60);
     
            }
     }

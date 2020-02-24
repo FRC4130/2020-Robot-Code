@@ -31,6 +31,8 @@ public class DriveTele implements ILoopable{
 
      public void onLoop() {
 
+        _drive.RampRate(3);
+
         if(_joystick.getRawButton(5)) {
 
               _drive.driveDirect(_joystick.getRawAxis(1)*-.20, _joystick.getRawAxis(5)*.20);
@@ -41,12 +43,6 @@ public class DriveTele implements ILoopable{
 
              _drive.driveDirect(_joystick.getRawAxis(1)*-1, _joystick.getRawAxis(5)*1);
 
-          }
-
-          else if(_joystick.getRawButton(2)) {
-
-            _drive.setPosRight(-90000);
-            _drive.setPosLeft(90000);
           }
 
           else {

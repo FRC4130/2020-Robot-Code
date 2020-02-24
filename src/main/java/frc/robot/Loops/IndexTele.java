@@ -39,7 +39,7 @@ public class IndexTele implements ILoopable{
          if(_joystick.getRawButton(5)) {
 
              _index.runIndex();
-             _index.Intake(-.60);
+
              _IntakePosition.set(_IntakePosition.Sucking);
 
          }
