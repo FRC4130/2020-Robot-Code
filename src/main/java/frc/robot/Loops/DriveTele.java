@@ -25,13 +25,15 @@ public class DriveTele implements ILoopable{
 
         System.out.println("Drive Tele Controls are Starting");
 
-        _drive.setNeutralMode(NeutralMode.Brake);
+        _drive.setNeutralMode(NeutralMode.Coast);
 
     }
 
      public void onLoop() {
 
+        _drive.setNeutralMode(NeutralMode.Coast);
         _drive.RampRate(3);
+        _drive.SmartDashboard();
 
         if(_joystick.getRawButton(5)) {
 
@@ -54,6 +56,7 @@ public class DriveTele implements ILoopable{
          if(_joystick.getRawButton(13)) {
 
              _drive.resetSensors(20);
+             _drive.resetHeading();
 
          }
 

@@ -3,6 +3,7 @@ package frc.robot.Loops;
 import com.ctre.phoenix.ILoopable;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -14,6 +15,7 @@ import frc.robot.Robots.RobotMap;
 public class DriveStraight implements ILoopable{
 
     PigeonIMU _pidgey;
+    TalonSRX _pidgeyTalon;
 
     TalonFX leftDrive;
     TalonFX rightDrive;
@@ -33,13 +35,15 @@ public class DriveStraight implements ILoopable{
         leftDrive = RobotMap.leftDrive;
         rightDrive = RobotMap.rightDrive;
 
+        _pidgeyTalon = new TalonSRX(RobotMap.kTurretID);
+
         _Joystick = RobotMap.driverJoystick;
 
-        _pidgey = RobotMap.pigeon;
     }
 
     public void onStart() {
         
+        _pidgey = new PigeonIMU(_pidgeyTalon);
         final int kTimeoutMs = 30;
         _pidgey.setFusedHeading(0.0, kTimeoutMs);
     }
@@ -64,7 +68,7 @@ public class DriveStraight implements ILoopable{
         SmartDashboard.putNumber("Current Anglular Rate", currentAngularRate);
 
         /* button 2 will zero Pigeon */
-        if (_Joystick.getRawButtonPressed(2)) {
+        if (_Joystick.getRawButtonPressed(13)) {
             /** Zero yaw, this has to be done using the pigeon, not the motor controller */
             _pidgey.setFusedHeading(0);
             _pidgey.setYaw(0, kTimeoutMs);

@@ -62,13 +62,13 @@ public class Index {
 
         if(index1.isRevLimitSwitchClosed() == 0) {
 
-            index1.set(ControlMode.PercentOutput, .60);
+            index1.set(ControlMode.PercentOutput, .80);
     
            }
     
            else if(index2.isRevLimitSwitchClosed() == 0) {
     
-            index1.set(ControlMode.PercentOutput, .60);
+            index1.set(ControlMode.PercentOutput, .80);
     
            }
     
@@ -79,13 +79,13 @@ public class Index {
     
            if(index2.isRevLimitSwitchClosed() == 0) {
     
-            index2.set(ControlMode.PercentOutput, .60);
+            index2.set(ControlMode.PercentOutput, .80);
     
            }
     
            else if(index3.isRevLimitSwitchClosed() == 0) {
     
-            index2.set(ControlMode.PercentOutput, .60);
+            index2.set(ControlMode.PercentOutput, .80);
     
            }
     
@@ -96,13 +96,13 @@ public class Index {
     
            if(index3.isRevLimitSwitchClosed() == 0) {
     
-            index3.set(ControlMode.PercentOutput, .60);
+            index3.set(ControlMode.PercentOutput, .80);
     
            }
     
            else if(index4.isRevLimitSwitchClosed() == 0) {
     
-            index3.set(ControlMode.PercentOutput, .60);
+            index3.set(ControlMode.PercentOutput, .80);
     
            }
     
@@ -114,13 +114,13 @@ public class Index {
     
            if(index4.isRevLimitSwitchClosed() == 0) {
     
-            index4.set(ControlMode.PercentOutput, .60);
+            index4.set(ControlMode.PercentOutput, .80);
     
            }
     
            else if (index5.isRevLimitSwitchClosed() == 0) {
     
-            index4.set(ControlMode.PercentOutput, .60);
+            index4.set(ControlMode.PercentOutput, .80);
     
            }
     
@@ -132,7 +132,7 @@ public class Index {
     
            if (index5.isRevLimitSwitchClosed() == 0) {
     
-            index5.set(ControlMode.PercentOutput, .60);
+            index5.set(ControlMode.PercentOutput, .80);
     
            }
     
@@ -164,13 +164,13 @@ public class Index {
 
         if(index1.isRevLimitSwitchClosed() == 0) {
 
-            index1.set(ControlMode.PercentOutput, .60);
+            index1.set(ControlMode.PercentOutput, .80);
     
            }
     
            else if(index2.isRevLimitSwitchClosed() == 0) {
     
-            index1.set(ControlMode.PercentOutput, .60);
+            index1.set(ControlMode.PercentOutput, .80);
     
            }
     
@@ -181,13 +181,13 @@ public class Index {
     
            if(index2.isRevLimitSwitchClosed() == 0) {
     
-            index2.set(ControlMode.PercentOutput, .60);
+            index2.set(ControlMode.PercentOutput, .80);
     
            }
     
            else if(index3.isRevLimitSwitchClosed() == 0) {
     
-            index2.set(ControlMode.PercentOutput, .60);
+            index2.set(ControlMode.PercentOutput, .80);
     
            }
     
@@ -198,13 +198,13 @@ public class Index {
     
            if(index3.isRevLimitSwitchClosed() == 0) {
     
-            index3.set(ControlMode.PercentOutput, .60);
+            index3.set(ControlMode.PercentOutput, .80);
     
            }
     
            else if(index4.isRevLimitSwitchClosed() == 0) {
     
-            index3.set(ControlMode.PercentOutput, .60);
+            index3.set(ControlMode.PercentOutput, .80);
     
            }
     
@@ -216,13 +216,13 @@ public class Index {
     
            if(index4.isRevLimitSwitchClosed() == 0) {
     
-            index4.set(ControlMode.PercentOutput, .60);
+            index4.set(ControlMode.PercentOutput, .80);
     
            }
     
            else if (index5.isRevLimitSwitchClosed() == 0) {
     
-            index4.set(ControlMode.PercentOutput, .60);
+            index4.set(ControlMode.PercentOutput, .80);
     
            }
     
@@ -234,14 +234,14 @@ public class Index {
     
            if (index5.isRevLimitSwitchClosed() == 0) {
     
-            index5.set(ControlMode.PercentOutput, .60);
+            index5.set(ControlMode.PercentOutput, .80);
     
            }
     
            else {
     
             
-            index5.set(ControlMode.PercentOutput, .60);
+            index5.set(ControlMode.PercentOutput, .80);
     
            }
     }

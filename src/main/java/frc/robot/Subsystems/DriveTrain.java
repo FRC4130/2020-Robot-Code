@@ -39,10 +39,10 @@ public class DriveTrain {
         rightDrive2.setInverted(InvertType.FollowMaster);
 
         leftDrive.setSensorPhase(true);
-        rightDrive.setSensorPhase(true);
+        rightDrive.setSensorPhase(false);
 
-        leftDrive.setNeutralMode(NeutralMode.Brake);
-        rightDrive.setNeutralMode(NeutralMode.Brake);
+        leftDrive.setNeutralMode(NeutralMode.Coast);
+        rightDrive.setNeutralMode(NeutralMode.Coast);
 
         leftDrive.set(ControlMode.PercentOutput, 0);
         rightDrive.set(ControlMode.PercentOutput, 0);
@@ -72,6 +72,8 @@ public class DriveTrain {
         SmartDashboard.putNumber("Right Velocity", rightDrive.getSelectedSensorVelocity(0));
         SmartDashboard.putNumber("Right Position", rightDrive.getSelectedSensorPosition(0));
         SmartDashboard.putNumber("Right Target Position", rightDrive.getClosedLoopTarget(0));
+
+        SmartDashboard.putNumber("Fused Heading", getHeading());
 
     }
 
@@ -149,7 +151,7 @@ public class DriveTrain {
 
     public void resetHeading() {
 
-        pigeon.setFusedHeading(0, 20);
+        pigeon.setFusedHeading(0);
 
     }
 

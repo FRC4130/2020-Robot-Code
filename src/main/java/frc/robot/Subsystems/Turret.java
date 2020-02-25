@@ -87,7 +87,7 @@ public class Turret implements ILoopable{
 
             PipelineSwitch();
             double area = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
-            double targetVeloity = Math.abs((-328.09*area)+7859.9);  //(-1435.4*area)+10673
+            double targetVeloity = Math.abs((-1459.5* area)+10139);  //(-1549.5*area)+10139
             SmartDashboard.putNumber("Target Velocity", targetVeloity);
 
             if (m_LimelightHasValidTarget) {
@@ -101,11 +101,11 @@ public class Turret implements ILoopable{
 
                 */ 
 
-                if(shootDrive.getSelectedSensorVelocity() >  Math.abs(((-328.09*area)+7859.9)-50)) {
+                if(shootDrive.getSelectedSensorVelocity() >  Math.abs(targetVeloity - 50)) {
                     _index.shootMode();
 
                 }
-
+                
                 // else {
                 //     _index.stopIndex();
                 // }
@@ -136,6 +136,12 @@ public class Turret implements ILoopable{
             NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(0);
             NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
         }  
+        else if (_Joystick.getRawButton(11)){
+            PipelineSwitch();
+            NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(0);
+            NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
+            turret.set(ControlMode.PercentOutput, m_LimelightSteerCommand);
+        } 
         else{
             NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0);
             NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(0);
@@ -162,7 +168,7 @@ public class Turret implements ILoopable{
 
     public void LimelightTracking() {
         // These numbers must be tuned...
-        final double STEER_K = 0.03; // How hard to turn toward the target
+        final double STEER_K = 0.026; // How hard to turn toward the target
         final double DRIVE_K = 0.40; // How hard to drive fwd toward the target
         final double DESIRED_TARGET_AREA = 1.2; // Area of the target when the robot reaches the wall
         final double MAX_DRIVE = .70; // Speed limit so we don't drive too fast
@@ -178,7 +184,7 @@ public class Turret implements ILoopable{
         }
         m_LimelightHasValidTarget = true;
         // Start with proportional steering
-        double steer_cmd = tx * STEER_K; //ZONE 1 = 1.15
+        double steer_cmd = ((tx * STEER_K)/*+.04*/); //ZONE 1 = 1.15
         m_LimelightSteerCommand = steer_cmd;
         // Try to drive forward until the target area reaches our desired area
         double drive_cmd = (DESIRED_TARGET_AREA - ta) * DRIVE_K;
