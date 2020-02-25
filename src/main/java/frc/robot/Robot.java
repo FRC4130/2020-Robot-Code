@@ -7,9 +7,6 @@
 
 package frc.robot;
 
-import java.sql.Driver;
-import java.util.ArrayList;
-
 import com.ctre.phoenix.schedulers.ConcurrentScheduler;
 import com.ctre.phoenix.schedulers.SequentialScheduler;
 
@@ -31,20 +28,10 @@ public class Robot extends TimedRobot {
   SequentialScheduler autonLeft;
   SequentialScheduler AutonFarLeft;
 
-  int target1i = 0;
-  int target2i = 0;
-  int target3i = 0;
-  int target4i = 0;
-
-  ArrayList<String> target1 = new ArrayList<String>();
-
   int posi = 0;
 
   @Override
   public void robotInit() {
-
-    target1.add("Target not set (auton)");
-
 
     RobotMap.Init();
     Subsystems.Init();
