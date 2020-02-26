@@ -60,6 +60,13 @@ public class DriveTele implements ILoopable{
 
          }
 
+         if(_joystick.getRawButton(8)) {
+
+            _drive.setPosLeft(60000);
+            _drive.setPosRight(60000);
+
+         }
+
     }
 
     public boolean isDone() {

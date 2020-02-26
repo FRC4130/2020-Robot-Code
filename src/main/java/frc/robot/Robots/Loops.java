@@ -3,6 +3,8 @@ package frc.robot.Robots;
 import com.ctre.phoenix.schedulers.ConcurrentScheduler;
 import com.ctre.phoenix.schedulers.SequentialScheduler;
 
+import edu.wpi.first.wpilibj.Timer;
+import frc.robot.Loops.ClimbTele;
 import frc.robot.Loops.ColorWheelTele;
 import frc.robot.Loops.DriveDistance;
 import frc.robot.Loops.DriveRotate;
@@ -22,6 +24,7 @@ public class Loops {
         teleop.add(new Turret());
         // teleop.add(new ColorWheelTele());
         teleop.add(new DriveStraight());
+        teleop.add(new ClimbTele());
 
         System.out.println("Scheduled");
 
@@ -33,9 +36,14 @@ public class Loops {
         test.add(new DriveDistance(300));
 
 
-
     }
 
+    public static void FarRightAuton(SequentialScheduler FarRightAuton) {
+
+
+
+    }
+    
     public static void RightAuton(SequentialScheduler Rightauton ) {
 
 
@@ -48,15 +56,18 @@ public class Loops {
     }
 
     public static void LeftAuton(SequentialScheduler Leftauton) {
-
-
         
     }
 
-    public static void FarLeftAuton(SequentialScheduler FarLeftauton) {
+    public static void DefaultForwardAuton(SequentialScheduler ForwardAuton) {
 
-        
+        ForwardAuton.add(new DriveDistance(60000));
+
+
     }
 
+    public static void DefaultBackwardsAuton(SequentialScheduler BackwardsAuton) {
+
+    }
 
 }

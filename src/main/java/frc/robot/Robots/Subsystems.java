@@ -1,5 +1,6 @@
 package frc.robot.Robots;
 
+import frc.robot.Subsystems.Climb;
 import frc.robot.Subsystems.ColorWheel;
 import frc.robot.Subsystems.DriveTrain;
 import frc.robot.Subsystems.Index;
@@ -13,6 +14,7 @@ public class Subsystems {
     public static IntakePosition intakePosition;
     public static Turret turret;
     public static ColorWheel colorWheel;
+    public static Climb climb;
 
 
     public static void Init() {
@@ -22,6 +24,7 @@ public class Subsystems {
         intakePosition = new IntakePosition();
         turret = new Turret();
         colorWheel = new ColorWheel();
+        climb = new Climb();
 
     }
 

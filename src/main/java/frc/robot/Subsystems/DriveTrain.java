@@ -12,11 +12,11 @@ import frc.robot.Robots.RobotMap;
 
 public class DriveTrain {
 
-    private TalonFX leftDrive;
-    private TalonFX leftDrive2;
+    private static  TalonFX leftDrive;
+    private static TalonFX leftDrive2;
 
-    private TalonFX rightDrive;
-    private TalonFX rightDrive2;
+    private static TalonFX rightDrive;
+    private static TalonFX rightDrive2;
 
     private PigeonIMU pigeon;
 
@@ -90,14 +90,14 @@ public class DriveTrain {
 
     }
 
-    public void RampRate(double Seconds) {
+    public static void RampRate(double Seconds) {
 
         leftDrive.configClosedloopRamp(Seconds);
         rightDrive.configClosedloopRamp(Seconds);
 
     }
 
-    public void setMagic(int cruiseVelocity, int acceleration) {
+    public static void setMagic(int cruiseVelocity, int acceleration) {
 
         leftDrive.configMotionCruiseVelocity(cruiseVelocity);
         leftDrive.configMotionAcceleration(acceleration);
