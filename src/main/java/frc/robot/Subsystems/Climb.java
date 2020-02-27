@@ -17,11 +17,20 @@ public class Climb {
         climbRight = RobotMap.ClimberRight;
 
         climbLeft.setInverted(true);
-        // climbRight.follow(climbLeft);
+        //climbRight.follow(climbLeft);
         climbRight.setInverted(false);
 
         climbLeft.set(ControlMode.PercentOutput, 0);
 
+        climbLeft.configNominalOutputForward(0);
+        climbLeft.configNominalOutputReverse(0);
+        climbLeft.configPeakOutputForward(1);
+        climbLeft.configPeakOutputReverse(1);
+
+        climbRight.configNominalOutputForward(0);
+        climbRight.configNominalOutputReverse(0);
+        climbRight.configPeakOutputForward(1);
+        climbRight.configPeakOutputReverse(1);
     }
 
     public void setNeutralModeLeft(NeutralMode nm) {
@@ -36,13 +45,13 @@ public class Climb {
 
     }
 
-    public void Drive(double throttle) {
+    public void DriveLeft(double throttle) {
 
         climbLeft.set(ControlMode.PercentOutput, throttle);
 
     }
 
-    public void Drive2(double throttle) {
+    public void DriveRight(double throttle) {
 
         climbRight.set(ControlMode.PercentOutput, throttle);
 

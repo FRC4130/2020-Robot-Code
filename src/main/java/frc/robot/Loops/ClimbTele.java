@@ -24,15 +24,17 @@ public class ClimbTele implements ILoopable{
 
         System.out.println("ClimbTele Controls has Started!");
 
-        _climb.setNeutralModeLeft(NeutralMode.Brake);
-        _climb.setNeutralModeRight(NeutralMode.Brake);
+        _climb.setNeutralModeLeft(NeutralMode.Coast);
+        _climb.setNeutralModeRight(NeutralMode.Coast);
 
     }
 
     public void onLoop() {
 
-        _climb.Drive(_joystick.getRawAxis(5));
-        _climb.Drive2(_joystick.getRawAxis(1));
+        _climb.DriveRight(_joystick.getRawAxis(5));
+
+         _climb.DriveLeft(_joystick.getRawAxis(5)*.95);
+
         
     }
 
@@ -44,9 +46,10 @@ public class ClimbTele implements ILoopable{
 
     public void onStop() {
 
-        _climb.setNeutralModeLeft(NeutralMode.Brake);
-        _climb.setNeutralModeRight(NeutralMode.Brake);
-        _climb.Drive(0);
+        _climb.setNeutralModeLeft(NeutralMode.Coast);
+        _climb.setNeutralModeRight(NeutralMode.Coast);
+        _climb.DriveLeft(0);
+        _climb.DriveRight(0);
 
     }
     

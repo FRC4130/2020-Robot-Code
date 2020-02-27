@@ -57,8 +57,8 @@ public class RobotMap {
     public static final int kShooter2ID = 11;
     public static final int kTurretID = 12;
     public static final int kColorWheelID = 13;
-    public static final int kClimberLeftID = 14;
-    public static final int kClimberRightID = 15;
+    public static final int kClimberLeftID = 15;
+    public static final int kClimberRightID = 14;
 
     /* --- Solenoid Objects --- */
     public static final int kIntakeDownID = 0;

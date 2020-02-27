@@ -20,19 +20,17 @@ public class Configs {
 
         /* --- Left Drive --- */
         leftDrive.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice();
-        leftDrive.slot0.kF = 0;
-        leftDrive.slot0.kP = 0;
-        leftDrive.slot0.kD = 0;
-        leftDrive.motionAcceleration = 200;
-        leftDrive.motionCruiseVelocity = 200;
+        leftDrive.slot0.kF = 0.0529;
+        leftDrive.slot0.kP = 0.00289;
+        leftDrive.motionAcceleration = 5000;
+        leftDrive.motionCruiseVelocity = 10000;
 
         /* --- Right Drive --- */
         rightDrive.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice();
-        rightDrive.slot0.kF = 0;
-        rightDrive.slot0.kP = 0;
-        rightDrive.slot0.kD = 0;
-        rightDrive.motionAcceleration = 200;
-        rightDrive.motionCruiseVelocity = 200;
+        rightDrive.slot0.kF = 0.0529;
+        rightDrive.slot0.kP = 0.00289;
+        rightDrive.motionAcceleration = 5000;
+        rightDrive.motionCruiseVelocity = 10000;
 
         /* --- Shooter --- */
         shooter.primaryPID.selectedFeedbackSensor = FeedbackDevice.CTRE_MagEncoder_Relative;

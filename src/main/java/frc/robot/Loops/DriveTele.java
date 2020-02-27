@@ -31,7 +31,7 @@ public class DriveTele implements ILoopable{
 
      public void onLoop() {
 
-        _drive.setNeutralMode(NeutralMode.Coast);
+        _drive.setNeutralMode(NeutralMode.Brake);
         _drive.RampRate(3);
         _drive.SmartDashboard();
 
@@ -49,7 +49,7 @@ public class DriveTele implements ILoopable{
 
           else {
 
-            _drive.driveDirect(_joystick.getRawAxis(1)*-.60, _joystick.getRawAxis(5)*.60);
+            _drive.driveDirect(_joystick.getRawAxis(1)*-.60, _joystick.getRawAxis(5)*-.60);
 
           }
 
@@ -62,9 +62,7 @@ public class DriveTele implements ILoopable{
 
          if(_joystick.getRawButton(8)) {
 
-            _drive.setPosLeft(60000);
-            _drive.setPosRight(60000);
-
+            _drive.setPos(120000);
          }
 
     }

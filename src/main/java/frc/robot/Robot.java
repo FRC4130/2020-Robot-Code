@@ -7,10 +7,16 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.schedulers.ConcurrentScheduler;
-import com.ctre.phoenix.schedulers.SequentialScheduler;
-
+import com.ctre.phoenix.sensors.PigeonIMU;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -20,137 +26,225 @@ import frc.robot.Robots.RobotMap;
 import frc.robot.Robots.Subsystems;
 import frc.robot.Subsystems.DriveTrain;
 import frc.robot.Subsystems.Index;
-import frc.robot.Subsystems.Turret;
+import frc.robot.Subsystems.IntakePosition;
+
+
 
 public class Robot extends TimedRobot {
-
-  String[] pos = {"Test", "Right", "Middle", "Left", "Far Right", "Forward", "Reverse"};
-
   ConcurrentScheduler teleop;
-
-  DriveTrain _drive;
-  Turret _turret;
-  Index _index;
-
-  // SequentialScheduler AutonTest;
-  // SequentialScheduler AutonRight;
-  // SequentialScheduler AutonMiddle;
-  // SequentialScheduler AutonLeft;
-  // SequentialScheduler AutonFarRight;
-  // SequentialScheduler AutonForward;
-  // SequentialScheduler AutonBackwards;
-
+  String[] pos = {"Test", "Right", "Middle", "Left", "Far Right", "Forward", "Reverse"};
   String gameData;
-
+  DriveTrain x_drive;
+  Index x_index;
+  IntakePosition x_intakePosition;
+  TalonFX x_shootDrive;
+  TalonFX x_shootDrive2;
+  TalonSRX x_turret;
+  PigeonIMU x_pidgey;
+  TalonSRX x_pidgeyTalon;
+  TalonFX x_leftDrive;
+  TalonFX x_rightDrive;
+  Joystick x_Joystick;
+  double kPgain = 0.03; 				      // percent throttle per degree of error */
+	double kDgain = 0.0004; 			      // percent throttle per angular velocity dps */
+	double kMaxCorrectionRatio = 0.30;	// cap corrective turning throttle to 30 percent of forward throttle
+	double targetAngle = 0;             //  holds the current angle to servo to 
+  final int kTimeoutMs = 30;
   int posi = 0;
+
+
 
   @Override
   public void robotInit() {
-
     RobotMap.Init();
     Subsystems.Init();
-
-    _drive = Subsystems.driveTrain;
-    _turret = Subsystems.turret;
-    _index = Subsystems.index;
-
+    x_drive = Subsystems.driveTrain;
+    x_index = Subsystems.index;
+    x_intakePosition = Subsystems.intakePosition;
+    x_turret = RobotMap.turret;
+    x_shootDrive = RobotMap.Shooter1;
+    x_shootDrive2 = RobotMap.Shooter2;
+    x_shootDrive2.follow(x_shootDrive);
+    x_shootDrive.setInverted(false);
+    x_shootDrive2.setInverted(InvertType.OpposeMaster);
+    x_shootDrive.setNeutralMode(NeutralMode.Coast);
+    x_shootDrive2.setNeutralMode(NeutralMode.Coast);
+    x_leftDrive = RobotMap.leftDrive;
+    x_rightDrive = RobotMap.rightDrive;
+    x_pidgeyTalon = new TalonSRX(RobotMap.kTurretID);
+    x_Joystick = RobotMap.driverJoystick;
   }
+
+
 
   @Override
   public void autonomousInit() {
-
-    // AutonTest = new SequentialScheduler(0);
-    // AutonRight = new SequentialScheduler(0);
-    // AutonMiddle = new SequentialScheduler(0);
-    // AutonLeft = new SequentialScheduler(0);
-    // AutonFarRight = new SequentialScheduler(0);
-    // AutonForward = new SequentialScheduler(0);
-    // AutonBackwards = new SequentialScheduler(0);
-
-    // switch (posi) {
-
-    //   case 0: Loops.sTest(AutonTest);
-
-    //   case 1: Loops.FarRightAuton(AutonFarRight);
-
-    //   case 2: Loops.RightAuton(AutonRight);
-
-    //   case 3: Loops.MiddleAuton(AutonMiddle);
-
-    //   case 4: Loops.LeftAuton(AutonLeft);
-
-    //   case 5: Loops.DefaultForwardAuton(AutonForward);
-
-    //   case 6: Loops.DefaultBackwardsAuton(AutonBackwards);
-
-    //}
-
-  //   AutonTest.start();
-  //   AutonFarRight.start();
-  //   AutonRight.start();
-  //   AutonMiddle.start();
-  //   AutonLeft.start();
-  //   AutonForward.start();
-  //   AutonBackwards.start();
-
    }
+
+
 
   @Override
   public void autonomousPeriodic() {
-      
-      _turret.AutonLimelight();
-      Timer.delay(5);
-     _drive.driveDirect(.15, -.15);
-     Timer.delay(2);
-     _drive.driveDirect(0, 0);
-     _index.Intake(.60);
-     Timer.delay(15);
-  
+    autoTrackingStart(5);
+    x_intakePosition.set(x_intakePosition.Sucking);
+    autoMechStop();
+    //x_drive.driveDirect(.20, -.20);
+    autoDrive(6);
+    x_index.runIndex();
+    Timer.delay(6);
+    x_drive.driveDirect(0, 0);
+    autoTrackingStart2(10);
+    Timer.delay(300);
   }
+
+
 
   @Override
   public void disabledPeriodic() {
-
     if(RobotMap.driverJoystick.getRawButtonPressed(9)) {
-
       posi++;
-
     }
-
   }
+
+
 
   @Override
   public void robotPeriodic() {
-
+    x_pidgey = new PigeonIMU(x_pidgeyTalon);
+    final int kTimeoutMs = 30;
+    // x_pidgey.setFusedHeading(0.0, kTimeoutMs);
     SmartDashboard.putNumber("Battery Voltage", RobotController.getBatteryVoltage());
     SmartDashboard.putNumber("Match Time", DriverStation.getInstance().getMatchTime());
     SmartDashboard.putString("Auton", pos[posi]);
-
     gameData = DriverStation.getInstance().getGameSpecificMessage().toLowerCase();
-
     SmartDashboard.putString("Color Wheel", gameData);
   }
 
+
+
   @Override
   public void teleopInit() {
-
     teleop = new ConcurrentScheduler();
     Loops.sTeleop(teleop);
     teleop.startAll();
-
-
   }
+
+
 
   @Override
   public void teleopPeriodic() {
-
     teleop.process();
-
   }
+
 
 
   @Override
   public void testPeriodic() {
   }
 
+
+
+  public void autoTrackingStart(double timeout) {
+    Timer timerx = new Timer();
+    timerx.start();
+    do {
+      NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1); //LED ON
+      NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(0);
+      NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
+      final double STEER_K = 0.030;
+      double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+      double steer_cmd = tx * STEER_K;
+      double m_LimelightSteerCommand = steer_cmd;
+      double area = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
+      double targetVeloity = Math.abs((-1459.5* area)+10139);  //(-1549.5*area)+10139
+      SmartDashboard.putNumber("Target Velocity", targetVeloity);
+      x_turret.set(ControlMode.PercentOutput, m_LimelightSteerCommand);
+      x_shootDrive.set(ControlMode.Velocity,  targetVeloity);
+      if(x_shootDrive.getSelectedSensorVelocity() >  Math.abs(targetVeloity - 50)) {
+        x_index.shootMode();
+      }
+    }
+    while (timerx.get() <= timeout);
+  }
+
+
+
+  public void autoTrackingStart2(double timeout) {
+    Timer timerx = new Timer();
+    timerx.start();
+    do {
+      NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(2); //LED ON
+      NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(0);
+      NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
+      final double STEER_K = 0.030;
+      double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+      double steer_cmd = tx * STEER_K;
+      double m_LimelightSteerCommand = steer_cmd;
+      double area = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
+      double targetVeloity = Math.abs((-1459.5* area)+10139);  //(-1549.5*area)+10139
+      SmartDashboard.putNumber("Target Velocity", targetVeloity);
+      x_turret.set(ControlMode.PercentOutput, m_LimelightSteerCommand);
+      x_shootDrive.set(ControlMode.Velocity,  targetVeloity);
+      if(x_shootDrive.getSelectedSensorVelocity() >  Math.abs(targetVeloity - 50)) {
+        x_index.shootMode();
+      }
+    }
+    while (timerx.get() <= timeout);
+  }
+
+  public void autoDrive(double timeout) {
+
+    Timer timerx = new Timer();
+    timerx.start();
+    do {
+
+      x_drive.setPos(160000);
+
+    }
+    while (timerx.get() <= timeout);
+
+  }
+
+  public void autoMechStop(){
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0);
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(1);
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
+    x_turret.set(ControlMode.PercentOutput, 0);
+    x_shootDrive.set(ControlMode.PercentOutput, 0);
+    x_index.stopIndex();
+  }
+
+
+
+  // public void autoDriveStraight(double timeout){
+  //   Timer timerx = new Timer();
+  //   timerx.start();
+  //   do {
+  //     PigeonIMU.GeneralStatus genStatus = new PigeonIMU.GeneralStatus();
+  //     PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
+  //     double [] xyz_dps = new double [3];
+  //     x_pidgey.getGeneralStatus(genStatus);
+  //     x_pidgey.getRawGyro(xyz_dps);
+  //     x_pidgey.getFusedHeading(fusionStatus);
+  //     double currentAngle = fusionStatus.heading;
+  //     boolean angleIsGood = (x_pidgey.getState() == PigeonIMU.PigeonState.Ready) ? true : false;
+  //     double currentAngularRate = xyz_dps[1];// Array to fill with x[0], y[1], and z[2] data in degrees per second.
+  //     SmartDashboard.putNumber("Battery Voltage", RobotController.getBatteryVoltage());
+  //     SmartDashboard.putNumber("Pigeon Fused Heading", x_pidgey.getFusedHeading());
+  //     SmartDashboard.putNumber("Pigeon Device ID", x_pidgey.getDeviceID());
+  //     SmartDashboard.putNumber("Current Angle", currentAngle);
+  //     SmartDashboard.putBoolean("Angle Good?", angleIsGood);
+  //     SmartDashboard.putNumber("Current Anglular Rate", currentAngularRate);
+  //     double forwardThrottle = .20;
+  //     double turnThrottle = (targetAngle - currentAngle) * kPgain - (currentAngularRate) * kDgain;
+  //     double left = forwardThrottle - turnThrottle;
+  //     double right = forwardThrottle + turnThrottle;
+  //     x_leftDrive.set(ControlMode.PercentOutput, left);
+  //     x_rightDrive.set(ControlMode.PercentOutput, right);
+  //     SmartDashboard.putNumber("Turn Throttle", turnThrottle);
+  //     SmartDashboard.putNumber("Forward Throttle", forwardThrottle);
+  //     SmartDashboard.putNumber("Target Angle", targetAngle);
+  //   }
+  //   while (timerx.get() <= timeout);
+  // }
 }

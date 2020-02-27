@@ -34,12 +34,12 @@ public class DriveTrain {
         leftDrive2.follow(leftDrive);
         leftDrive2.setInverted(InvertType.FollowMaster);
 
-        rightDrive.setInverted(true);
+        rightDrive.setInverted(false);
         rightDrive2.follow(rightDrive);
         rightDrive2.setInverted(InvertType.FollowMaster);
 
         leftDrive.setSensorPhase(true);
-        rightDrive.setSensorPhase(false);
+        rightDrive.setSensorPhase(true);
 
         leftDrive.setNeutralMode(NeutralMode.Coast);
         rightDrive.setNeutralMode(NeutralMode.Coast);
@@ -129,6 +129,13 @@ public class DriveTrain {
     public void setPosRight(double nativeUnits) {
 
         rightDrive.set(ControlMode.MotionMagic, nativeUnits);
+
+    }
+
+    public void setPos(double nativeUnits) {
+
+        rightDrive.set(ControlMode.MotionMagic, nativeUnits);
+        leftDrive.set(ControlMode.MotionMagic, nativeUnits);
 
     }
 
