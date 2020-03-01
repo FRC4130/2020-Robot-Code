@@ -23,7 +23,7 @@ public class Loops {
         teleop.add(new IndexTele());
         teleop.add(new Turret());
         teleop.add(new ColorWheel());
-        teleop.add(new DriveStraight());
+        //teleop.add(new DriveStraight());
         teleop.add(new ClimbTele());
 
         System.out.println("Scheduled");

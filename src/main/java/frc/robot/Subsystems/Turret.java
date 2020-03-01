@@ -50,42 +50,6 @@ public class Turret implements ILoopable{
 
     }
 
-    public void AutonLimelight() {
-
-        LimelightTracking();
-
-         NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);
-         NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(0);
-         NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
-
-         double area = 1.9; /*NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0); */
-         double targetVeloity = 7000;/*Math.abs((-1459.5* area)+10139);*/
-         SmartDashboard.putNumber("Target Velocity", targetVeloity);
-
-         if (m_LimelightHasValidTarget) {
-             turret.set(ControlMode.PercentOutput, m_LimelightSteerCommand);
-             shootDrive.set(ControlMode.Velocity,  targetVeloity);
-
-             if(shootDrive.getSelectedSensorVelocity() >  7000-50/*Math.abs(targetVeloity - 50*/) {
-                 _index.shootMode();
-
-             }
-             
-             else {
-                 _index.stopIndex();
-             }
-
-         }    
-         else {
-             // NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);
-             NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(0);
-             NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
-             shootDrive.set(ControlMode.PercentOutput, 50);
-             _index.stopIndex();
-         }
-
-    }
-
     public void onStart() {
       shootDrive.configNominalOutputForward(0.0, kTimeoutMS);
       shootDrive.configNominalOutputReverse(0.0, kTimeoutMS);
@@ -148,7 +112,7 @@ public class Turret implements ILoopable{
 
             }    
             else {
-                // NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);
+                NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);
                 NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(0);
                 NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
                 shootDrive.set(ControlMode.PercentOutput, 50);
@@ -156,10 +120,18 @@ public class Turret implements ILoopable{
             }
         }
         else if (_Joystick.getRawButton(3)) {
-            shootDrive.set(ControlMode.PercentOutput, .55);
-            _index.shootMode();
 
-        }
+                    shootDrive.set(ControlMode.Velocity, 11000);
+    
+                    if(shootDrive.getSelectedSensorVelocity() > Math.abs(11000-100)) {
+                        _index.shootMode();
+                    }
+                    else {
+                        _index.stopIndex();
+                    }
+    
+    
+             }
         else if (_Joystick.getRawButton(4)) {
             shootDrive.set(ControlMode.PercentOutput, .75);
         }
@@ -189,10 +161,10 @@ public class Turret implements ILoopable{
         }
 
         if (_Joystick.getRawButton(7)){
-            turret.set(ControlMode.PercentOutput, -.2);
+            turret.set(ControlMode.PercentOutput, -.15);
         }
         else if (_Joystick.getRawButton(8)){
-            turret.set(ControlMode.PercentOutput, .2);
+            turret.set(ControlMode.PercentOutput, .15);
         }
         // else {
         //     turret.set(ControlMode.PercentOutput, 0);
@@ -220,7 +192,7 @@ public class Turret implements ILoopable{
         }
         m_LimelightHasValidTarget = true;
         // Start with proportional steering
-        double steer_cmd = ((tx * STEER_K)/*+.04*/); //ZONE 1 = 1.15
+        double steer_cmd = ((tx * STEER_K)+.06); //ZONE 1 = 1.15
         m_LimelightSteerCommand = steer_cmd;
         // Try to drive forward until the target area reaches our desired area
         double drive_cmd = (DESIRED_TARGET_AREA - ta) * DRIVE_K;

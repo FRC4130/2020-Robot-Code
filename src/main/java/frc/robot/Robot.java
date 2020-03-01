@@ -32,7 +32,7 @@ import frc.robot.Subsystems.IntakePosition;
 
 public class Robot extends TimedRobot {
   ConcurrentScheduler teleop;
-  String[] pos = {"Test", "Right", "Middle", "Left", "Far Right", "Forward", "Reverse"};
+  String[] pos = {"Default Reverse", "Defualt Forward", "Left Auton"};
   String gameData;
   DriveTrain x_drive;
   Index x_index;
@@ -51,7 +51,7 @@ public class Robot extends TimedRobot {
 	double targetAngle = 0;             //  holds the current angle to servo to 
   final int kTimeoutMs = 30;
   int posi = 0;
-
+  Timer matchtimer = new Timer();
 
 
   @Override
@@ -79,29 +79,74 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    matchtimer.start();
    }
 
 
 
   @Override
   public void autonomousPeriodic() {
-    autoTrackingStart(5);
-    x_intakePosition.set(x_intakePosition.Sucking);
-    autoMechStop();
-    //x_drive.driveDirect(.20, -.20);
-    autoDrive(6);
-    x_index.runIndex();
-    Timer.delay(6);
-    x_drive.driveDirect(0, 0);
-    autoTrackingStart2(10);
-    Timer.delay(300);
+
+    switch(posi) {
+
+    case 0:
+          
+          autoTrackingStart();
+          autoDriveReverseDefault(6);
+          break;
+
+    case 1:
+          if(matchtimer.get() > 3 && matchtimer.get() < 7) {
+          autoTrackingStart();
+          }
+          else if (matchtimer.get() > 8 && matchtimer.get() < 10 ) {
+          autoDrive();
+          }
+          else {
+            autoMechStop();
+            x_drive.driveDirect(0, 0);
+          }
+          break;
+
+    case 2: 
+          if(matchtimer.get() < 4) {
+            autoTrackingStart();
+
+          }
+          else if (matchtimer.get() < 10) {
+            x_intakePosition.set(x_intakePosition.Sucking);
+            x_index.runIndex();
+            autoDrive();            
+
+          }
+          else if(matchtimer.get() < 14) {
+            x_drive.driveDirect(0, 0);
+            autoTrackingStart2();
+
+          }
+          else {
+          autoMechStop();
+          }
+          break;
+
+
+    /* Not Working Left Auton*/
+    // case 3:
+    //       autoTrackingStart(4);
+    //       x_intakePosition.set(x_intakePosition.Sucking);
+    //       x_index.runIndex();
+    //       autoDrive(8);
+    //       autoTrackingStart2(4);
+    //       autoMechStop();
+    //       break;
+
+     }
   }
-
-
 
   @Override
   public void disabledPeriodic() {
-    if(RobotMap.driverJoystick.getRawButtonPressed(9)) {
+
+    if(RobotMap.driverJoystick.getRawButtonPressed(11)) {
       posi++;
     }
   }
@@ -144,10 +189,7 @@ public class Robot extends TimedRobot {
 
 
 
-  public void autoTrackingStart(double timeout) {
-    Timer timerx = new Timer();
-    timerx.start();
-    do {
+  public void autoTrackingStart() {
       NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1); //LED ON
       NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(0);
       NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
@@ -156,50 +198,61 @@ public class Robot extends TimedRobot {
       double steer_cmd = tx * STEER_K;
       double m_LimelightSteerCommand = steer_cmd;
       double area = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
-      double targetVeloity = Math.abs((-1459.5* area)+10139);  //(-1549.5*area)+10139
+      double targetVeloity = Math.abs((-1459.5* area)+10139);
       SmartDashboard.putNumber("Target Velocity", targetVeloity);
       x_turret.set(ControlMode.PercentOutput, m_LimelightSteerCommand);
       x_shootDrive.set(ControlMode.Velocity,  targetVeloity);
       if(x_shootDrive.getSelectedSensorVelocity() >  Math.abs(targetVeloity - 50)) {
         x_index.shootMode();
       }
-    }
-    while (timerx.get() <= timeout);
   }
 
 
 
-  public void autoTrackingStart2(double timeout) {
-    Timer timerx = new Timer();
-    timerx.start();
-    do {
+  public void autoTrackingStart2() {
       NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(2); //LED ON
       NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(0);
       NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
-      final double STEER_K = 0.030;
+      final double STEER_K = 0.028;
       double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
       double steer_cmd = tx * STEER_K;
       double m_LimelightSteerCommand = steer_cmd;
       double area = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
-      double targetVeloity = Math.abs((-1459.5* area)+10139);  //(-1549.5*area)+10139
+      double targetVeloity = Math.abs((-1559.5* area)+10139);  //(-1549.5*area)+10139
       SmartDashboard.putNumber("Target Velocity", targetVeloity);
       x_turret.set(ControlMode.PercentOutput, m_LimelightSteerCommand);
       x_shootDrive.set(ControlMode.Velocity,  targetVeloity);
       if(x_shootDrive.getSelectedSensorVelocity() >  Math.abs(targetVeloity - 50)) {
         x_index.shootMode();
       }
-    }
-    while (timerx.get() <= timeout);
   }
 
-  public void autoDrive(double timeout) {
+  public void autoDrive() {
+
+
+      x_drive.driveDirect(.20, .21);
+
+  }
+
+  public void autoDriveReverseDefault(double timeout) {
 
     Timer timerx = new Timer();
     timerx.start();
     do {
 
-      x_drive.setPos(160000);
+      x_drive.driveDirect(-.20, -.21);
+    }
+    while (timerx.get() <= timeout);
 
+  }
+
+  public void autoDriveForwardDefault(double timeout) {
+
+    Timer timerx = new Timer();
+    timerx.start();
+    do {
+
+      x_drive.driveDirect(.20, .21);
     }
     while (timerx.get() <= timeout);
 

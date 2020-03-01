@@ -1,7 +1,10 @@
 package frc.robot.Robots;
 
+import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.Subsystems.Climb;
+import frc.robot.Subsystems.ClimbRelease;
 import frc.robot.Subsystems.ColorWheel;
+import frc.robot.Subsystems.ColorWheelPosition;
 import frc.robot.Subsystems.DriveTrain;
 import frc.robot.Subsystems.Index;
 import frc.robot.Subsystems.IntakePosition;
@@ -15,6 +18,8 @@ public class Subsystems {
     public static Turret turret;
     public static ColorWheel colorWheel;
     public static Climb climb;
+    public static ClimbRelease climbRelease;
+    public static ColorWheelPosition wheelposition;
 
 
     public static void Init() {
@@ -24,7 +29,9 @@ public class Subsystems {
         intakePosition = new IntakePosition();
         turret = new Turret();
         colorWheel = new ColorWheel();
+        wheelposition = new ColorWheelPosition();
         climb = new Climb();
+        climbRelease = new ClimbRelease();
 
     }
 

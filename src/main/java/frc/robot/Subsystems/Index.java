@@ -62,13 +62,13 @@ public class Index {
 
         if(index1.isRevLimitSwitchClosed() == 0) {
 
-            index1.set(ControlMode.PercentOutput, .80);
+            index1.set(ControlMode.PercentOutput, .60);
     
            }
     
            else if(index2.isRevLimitSwitchClosed() == 0) {
     
-            index1.set(ControlMode.PercentOutput, .80);
+            index1.set(ControlMode.PercentOutput, .60);
     
            }
     
@@ -164,13 +164,13 @@ public class Index {
 
         if(index1.isRevLimitSwitchClosed() == 0) {
 
-            index1.set(ControlMode.PercentOutput, .80);
+            index1.set(ControlMode.PercentOutput, .60);
     
            }
     
            else if(index2.isRevLimitSwitchClosed() == 0) {
     
-            index1.set(ControlMode.PercentOutput, .80);
+            index1.set(ControlMode.PercentOutput, .60);
     
            }
     

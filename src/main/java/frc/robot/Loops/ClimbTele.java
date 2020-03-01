@@ -7,16 +7,19 @@ import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Robots.RobotMap;
 import frc.robot.Robots.Subsystems;
 import frc.robot.Subsystems.Climb;
+import frc.robot.Subsystems.ClimbRelease;
 
 public class ClimbTele implements ILoopable{
 
     Climb _climb;
     Joystick _joystick;
+    ClimbRelease _climbSolenoid;
 
     public ClimbTele() {
 
         _climb = Subsystems.climb;
         _joystick = RobotMap.operatorJoystick;
+        _climbSolenoid = Subsystems.climbRelease;
 
     }
 
@@ -26,15 +29,24 @@ public class ClimbTele implements ILoopable{
 
         _climb.setNeutralModeLeft(NeutralMode.Coast);
         _climb.setNeutralModeRight(NeutralMode.Coast);
+        _climbSolenoid.set(_climbSolenoid.Secured);
 
     }
 
     public void onLoop() {
 
-        _climb.DriveRight(_joystick.getRawAxis(5));
+        if(_joystick.getRawButton(9) && _joystick.getRawButton(10)) {
+            _climbSolenoid.set(_climbSolenoid.Released);
 
-         _climb.DriveLeft(_joystick.getRawAxis(5)*.95);
+            _climb.DriveRight(_joystick.getRawAxis(1));
+            _climb.DriveLeft(_joystick.getRawAxis(1)*.95);
 
+        }
+
+        else {
+            _climbSolenoid.set(_climbSolenoid.Secured);
+
+        }
         
     }
 

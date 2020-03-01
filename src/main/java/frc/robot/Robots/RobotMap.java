@@ -37,6 +37,8 @@ public class RobotMap {
 
     /* --- Solenoid Objects --- */
     public static DoubleSolenoid intakeLift;
+    public static DoubleSolenoid climberRelease;
+    public static DoubleSolenoid colorWheelSolenoid;
 
     /* --- Joystick Objects --- */
     public static Joystick driverJoystick;
@@ -63,6 +65,10 @@ public class RobotMap {
     /* --- Solenoid Objects --- */
     public static final int kIntakeDownID = 0;
     public static final int kIntakeUpID = 1;
+    public static final int kColorWheelUp = 2;
+    public static final int kColorWheelDown = 3;
+    public static final int kClimberlocked = 4;
+    public static final int kClimberrelease= 5;
 
     /* --- Joystick ID's --- */
     public static final int kDriverJoysickID = 0;
@@ -107,8 +113,10 @@ public class RobotMap {
         driverJoystick = new Joystick(kDriverJoysickID);
         operatorJoystick = new Joystick(kOperatorJoystickID);
 
-        //Solenoid for Intake
+        //Solenoids
         intakeLift = new DoubleSolenoid(kIntakeDownID, kIntakeUpID);
+        climberRelease = new DoubleSolenoid(kClimberlocked, kClimberrelease);
+        colorWheelSolenoid = new DoubleSolenoid(kColorWheelUp, kColorWheelDown);
 
 
     }
