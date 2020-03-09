@@ -133,7 +133,8 @@ public class Turret implements ILoopable{
     
              }
         else if (_Joystick.getRawButton(4)) {
-            shootDrive.set(ControlMode.PercentOutput, .75);
+            shootDrive.set(ControlMode.PercentOutput, .40);
+            _index.shootMode();
         }
         else if(_Joystick.getRawButton(14)) {
             shootDrive.set(ControlMode.PercentOutput, .23);
