@@ -32,7 +32,7 @@ import frc.robot.Subsystems.IntakePosition;
 
 public class Robot extends TimedRobot {
   ConcurrentScheduler teleop;
-  String[] pos = {"Default Reverse", "Defualt Forward", "Left Auton"};
+  String[] pos = {"Test", "Delayed Forward", "Default Forward", "6 Ball Trench"};
   String gameData;
   DriveTrain x_drive;
   Index x_index;
@@ -89,12 +89,14 @@ public class Robot extends TimedRobot {
 
     switch(posi) {
 
+    /* --- Test --- */
     case 0:
           
           autoTrackingStart();
           autoDriveReverseDefault(6);
           break;
 
+    /* --- Delayed Shoot, Drive Forward --- */
     case 1:
           if(matchtimer.get() > 3 && matchtimer.get() < 7) {
           autoTrackingStart();
@@ -108,7 +110,22 @@ public class Robot extends TimedRobot {
           }
           break;
 
-    case 2: 
+    /* --- Shoot, Drive Forward --- */
+    case 2:
+          if(matchtimer.get() < 4) {
+          autoTrackingStart();
+          }
+          else if (matchtimer.get() < 6 ) {
+          autoDrive();
+          }
+          else {
+            autoMechStop();
+            x_drive.driveDirect(0, 0);
+          }
+          break;
+
+    /* --- Right Trench (6 Ball) --- */
+    case 3: 
           if(matchtimer.get() < 4) {
             autoTrackingStart();
 
@@ -129,17 +146,6 @@ public class Robot extends TimedRobot {
           }
           break;
 
-
-    /* Not Working Left Auton*/
-    // case 3:
-    //       autoTrackingStart(4);
-    //       x_intakePosition.set(x_intakePosition.Sucking);
-    //       x_index.runIndex();
-    //       autoDrive(8);
-    //       autoTrackingStart2(4);
-    //       autoMechStop();
-    //       break;
-
      }
   }
 
@@ -156,7 +162,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     x_pidgey = new PigeonIMU(x_pidgeyTalon);
-    final int kTimeoutMs = 30;
     // x_pidgey.setFusedHeading(0.0, kTimeoutMs);
     SmartDashboard.putNumber("Battery Voltage", RobotController.getBatteryVoltage());
     SmartDashboard.putNumber("Match Time", DriverStation.getInstance().getMatchTime());

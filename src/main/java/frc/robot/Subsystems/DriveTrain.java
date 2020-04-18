@@ -90,7 +90,7 @@ public class DriveTrain {
 
     }
 
-    public static void RampRate(double Seconds) {
+    public void RampRate(double Seconds) {
 
         leftDrive.configClosedloopRamp(Seconds);
         rightDrive.configClosedloopRamp(Seconds);

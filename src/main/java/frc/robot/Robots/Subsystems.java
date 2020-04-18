@@ -1,6 +1,5 @@
 package frc.robot.Robots;
 
-import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.Subsystems.Climb;
 import frc.robot.Subsystems.ClimbRelease;
 import frc.robot.Subsystems.ColorWheel;

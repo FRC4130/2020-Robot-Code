@@ -37,13 +37,13 @@ public class DriveTele implements ILoopable{
 
         if(_joystick.getRawButton(5)) {
 
-              _drive.driveDirect(_joystick.getRawAxis(1)*-.20, _joystick.getRawAxis(5)*.20);
+              _drive.driveDirect(_joystick.getRawAxis(1)*-.20, _joystick.getRawAxis(5)*-.20);
 
           }
 
           else if(_joystick.getRawButton(6)) {
 
-             _drive.driveDirect(_joystick.getRawAxis(1)*-1, _joystick.getRawAxis(5)*1);
+             _drive.driveDirect(_joystick.getRawAxis(1)*-1, _joystick.getRawAxis(5)*-1);
 
           }
 

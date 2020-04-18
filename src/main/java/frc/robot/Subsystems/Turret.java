@@ -38,6 +38,7 @@ public class Turret implements ILoopable{
     boolean m_LimelightHasValidTarget = false;
 
     double WantedPipeline;
+    double ChangedModifier;
 
     public Turret() {
 
@@ -76,11 +77,11 @@ public class Turret implements ILoopable{
 
         ActualVelocity = shootDrive.getSelectedSensorVelocity();
 
-        LimelightTracking();
-
         PipelineSwitch();
 
-        if (_Joystick.getRawButton(2)/* && RobotController.getBatteryVoltage() > 9*/) {
+        LimelightTracking();
+
+        if (_Joystick.getRawButton(2)) {
             // NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);
             NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(0);
             NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
@@ -162,10 +163,10 @@ public class Turret implements ILoopable{
         }
 
         if (_Joystick.getRawButton(7)){
-            turret.set(ControlMode.PercentOutput, -.15);
+            turret.set(ControlMode.PercentOutput, -.17);
         }
         else if (_Joystick.getRawButton(8)){
-            turret.set(ControlMode.PercentOutput, .15);
+            turret.set(ControlMode.PercentOutput, .17);
         }
         // else {
         //     turret.set(ControlMode.PercentOutput, 0);
@@ -193,7 +194,7 @@ public class Turret implements ILoopable{
         }
         m_LimelightHasValidTarget = true;
         // Start with proportional steering
-        double steer_cmd = ((tx * STEER_K)+.06); //ZONE 1 = 1.15
+        double steer_cmd = ((tx * STEER_K) + ChangedModifier); //ZONE 1 = .06
         m_LimelightSteerCommand = steer_cmd;
         // Try to drive forward until the target area reaches our desired area
         double drive_cmd = (DESIRED_TARGET_AREA - ta) * DRIVE_K;
@@ -225,15 +226,19 @@ public class Turret implements ILoopable{
         
         if(WantedPipeline == 1) {
             NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);
+            ChangedModifier = 0;
         }
         else if(WantedPipeline == 2) {
             NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(2);
+            ChangedModifier = 0;
         }
         else if(WantedPipeline == 3) {
             NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(3);
+            ChangedModifier = 0;
         }
         else if(WantedPipeline == 4) {
             NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(4);
+            ChangedModifier = 0;
         }
         SmartDashboard.putNumber("Pipeline Zone", WantedPipeline);
     }
