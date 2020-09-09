@@ -9,6 +9,7 @@ public class ClimbRelease {
     public DoubleSolenoid climbSolenoid;
     public final Value Secured = Value.kReverse;
     public final Value Released = Value.kForward;
+    public final Value Off = Value.kOff;
 
     public ClimbRelease() {
 
@@ -25,7 +26,7 @@ public class ClimbRelease {
 
     public void disable() {
 
-        climbSolenoid.set(Value.kOff);
+        climbSolenoid.set(Off);
         
     }
 

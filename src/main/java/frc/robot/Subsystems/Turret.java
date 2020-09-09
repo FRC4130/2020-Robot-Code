@@ -194,7 +194,7 @@ public class Turret implements ILoopable{
         }
         m_LimelightHasValidTarget = true;
         // Start with proportional steering
-        double steer_cmd = ((tx * STEER_K) + ChangedModifier); //ZONE 1 = .06
+        double steer_cmd = ((tx * STEER_K) + ChangedModifier); //ZONE 1 = .06. The changed modifier depends on what zone has been choosen.
         m_LimelightSteerCommand = steer_cmd;
         // Try to drive forward until the target area reaches our desired area
         double drive_cmd = (DESIRED_TARGET_AREA - ta) * DRIVE_K;

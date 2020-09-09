@@ -35,18 +35,21 @@ public class DriveTele implements ILoopable{
         _drive.RampRate(3);
         _drive.SmartDashboard();
 
+        //20% Speed
         if(_joystick.getRawButton(5)) {
 
               _drive.driveDirect(_joystick.getRawAxis(1)*-.20, _joystick.getRawAxis(5)*-.20);
 
           }
 
+          //Turbo VERY DANGEROUS
           else if(_joystick.getRawButton(6)) {
 
              _drive.driveDirect(_joystick.getRawAxis(1)*-1, _joystick.getRawAxis(5)*-1);
 
           }
-
+          
+          //Normal 60%
           else {
 
             _drive.driveDirect(_joystick.getRawAxis(1)*-.60, _joystick.getRawAxis(5)*-.60);

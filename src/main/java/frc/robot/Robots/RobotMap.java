@@ -27,7 +27,7 @@ public class RobotMap {
 
     public static TalonSRX turret;
 
-    public static TalonSRX Index1;
+    public static TalonFX Index1;
     public static TalonSRX Index2;
     public static TalonSRX Index3;
     public static TalonSRX Index4;
@@ -96,7 +96,7 @@ public class RobotMap {
         turret = new TalonSRX(kTurretID);
 
         //Index
-        Index1 = new TalonSRX(kIndex1ID);
+        Index1 = new TalonFX(kIndex1ID);
         Index2 = new TalonSRX(kIndex2ID);
         Index3 = new TalonSRX(kIndex3ID);
         Index4 = new TalonSRX(kIndex4ID);
