@@ -39,13 +39,14 @@ public class ClimbTele implements ILoopable{
             _climbSolenoid.set(_climbSolenoid.Released);
 
             _climb.DriveRight(_joystick.getRawAxis(1));
-            _climb.DriveLeft(_joystick.getRawAxis(1)*.95);
+            _climb.DriveLeft(_joystick.getRawAxis(1));
 
         }
 
         else {
             _climbSolenoid.set(_climbSolenoid.Secured);
-
+            _climb.DriveRight(0);
+            _climb.DriveLeft(0);
         }
         
     }
