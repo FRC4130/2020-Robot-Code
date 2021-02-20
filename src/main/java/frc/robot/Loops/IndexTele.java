@@ -16,6 +16,7 @@ public class IndexTele implements ILoopable{
     Joystick _joystick;
 
     boolean indexMove;
+    
 
     public IndexTele() {
 
