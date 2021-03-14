@@ -9,6 +9,7 @@ import frc.robot.Loops.DriveRotate;
 import frc.robot.Loops.DriveTele;
 import frc.robot.Loops.IndexTele;
 import frc.robot.Subsystems.ColorWheel;
+import frc.robot.Subsystems.Pixy;
 import frc.robot.Subsystems.Turret;
 
 public class Loops {
@@ -23,6 +24,7 @@ public class Loops {
         teleop.add(new ColorWheel());
         //teleop.add(new DriveStraight());
         teleop.add(new ClimbTele());
+        //teleop.add(new Pixy());
 
         System.out.println("Scheduled");
 

@@ -6,7 +6,9 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.PigeonIMU;
+import com.ctre.phoenix.sensors.PigeonIMU.FusionStatus;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robots.RobotMap;
 
@@ -20,6 +22,10 @@ public class DriveTrain {
 
     private PigeonIMU pigeon;
 
+    private static Joystick _joystick;
+
+    public boolean _turn;
+
     public DriveTrain() {
 
         leftDrive = RobotMap.leftDrive;
@@ -29,6 +35,9 @@ public class DriveTrain {
         rightDrive2 = RobotMap.rightDrive2;
 
         pigeon = RobotMap.pigeon;
+        _turn = RobotMap.turn;
+
+        _joystick = RobotMap.driverJoystick;
 
         leftDrive.setInverted(true);
         leftDrive2.follow(leftDrive);
@@ -74,7 +83,7 @@ public class DriveTrain {
         SmartDashboard.putNumber("Right Target Position", rightDrive.getClosedLoopTarget(0));
 
         SmartDashboard.putNumber("Fused Heading", getHeading());
-
+        SmartDashboard.putBoolean("Turn", _turn);
     }
 
     public void driveDirect(double leftThrottle, double rightThrottle) {
@@ -111,6 +120,7 @@ public class DriveTrain {
 
         leftDrive.setSelectedSensorPosition(0, 0, kTimeoutMS);
         rightDrive.setSelectedSensorPosition(0, 0, kTimeoutMS);
+        pigeon.setFusedHeading(0, kTimeoutMS);
 
     }
 
@@ -134,8 +144,25 @@ public class DriveTrain {
 
     public void setPos(double nativeUnits) {
 
-        rightDrive.set(ControlMode.MotionMagic, nativeUnits);
-        leftDrive.set(ControlMode.MotionMagic, nativeUnits);
+        //rightDrive.set(ControlMode.MotionMagic, nativeUnits);
+        //leftDrive.set(ControlMode.MotionMagic, nativeUnits);
+
+        if (nativeUnits > 0) {
+            while (rightDrive.getSelectedSensorPosition() < nativeUnits) {
+            rightDrive.set(ControlMode.PercentOutput, .50);
+            leftDrive.set(ControlMode.PercentOutput, .50);
+            }
+        }
+        else if (nativeUnits < 0) {
+            while(rightDrive.getSelectedSensorPosition() > nativeUnits) {
+                rightDrive.set(ControlMode.PercentOutput, -.50);
+                leftDrive.set(ControlMode.PercentOutput, -.50);
+            }
+        }
+        else {
+            rightDrive.set(ControlMode.PercentOutput, 0);
+            leftDrive.set(ControlMode.PercentOutput, 0);
+        }
 
     }
 
@@ -150,15 +177,63 @@ public class DriveTrain {
 
     }
 
+    public void setHeading(double heading, boolean _turn) {
+
+        pigeon.setFusedHeading(heading);
+
+        if (_turn == true) {
+            if (heading < 0) {
+                while (pigeon.getFusedHeading() > heading) {
+
+                rightDrive.set(ControlMode.PercentOutput, 0);
+                leftDrive.set(ControlMode.PercentOutput, .50);
+                pigeon.getFusedHeading();
+                SmartDashboard.putNumber("Fused Heading", getHeading());
+                SmartDashboard.putBoolean("Turn", _turn);
+            
+                }
+
+                while ((pigeon.getFusedHeading() <= heading) && _turn == true) {
+
+                rightDrive.set(ControlMode.PercentOutput, 0);
+                leftDrive.set(ControlMode.PercentOutput, 0);
+                pigeon.getFusedHeading();
+                SmartDashboard.putNumber("Fused Heading", getHeading());
+                SmartDashboard.putBoolean("Turn", _turn);
+
+                }
+            }
+
+            else if (heading > 0) {
+                while (pigeon.getFusedHeading() < heading) {
+
+                rightDrive.set(ControlMode.PercentOutput, .50);
+                leftDrive.set(ControlMode.PercentOutput, 0);
+                pigeon.getFusedHeading();
+                SmartDashboard.putNumber("Fused Heading", getHeading());
+            
+                }
+
+                while ((pigeon.getFusedHeading() >= heading) && _turn == true) {
+
+                rightDrive.set(ControlMode.PercentOutput, 0);
+                leftDrive.set(ControlMode.PercentOutput, 0);
+                pigeon.getFusedHeading();
+                SmartDashboard.putNumber("Fused Heading", getHeading());
+
+
+                }
+            }
+        else {
+            driveDirect(_joystick.getRawAxis(1), _joystick.getRawAxis(5));
+            _turn = false;
+        }
+        }
+    }
+
     public double getHeading() {
 
         return pigeon.getFusedHeading();
-
-    }
-
-    public void resetHeading() {
-
-        pigeon.setFusedHeading(0);
 
     }
 

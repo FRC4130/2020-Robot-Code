@@ -74,6 +74,9 @@ public class RobotMap {
     public static final int kDriverJoysickID = 0;
     public static final int kOperatorJoystickID = 1;
 
+    /* --- Pigeon ID --- */
+    public static final int kPigeonID = 1;
+    public static boolean turn = false;
 
 
     public static void Init() {
@@ -86,7 +89,8 @@ public class RobotMap {
         rightDrive2 = new TalonFX(kRightDrive2ID);
 
         //Pigeon
-        pigeon = new PigeonIMU(kTurretID);
+        pigeon = new PigeonIMU(kPigeonID);
+        turn = false;
 
         //Shooter
         Shooter1 = new TalonFX(kShooter1ID);

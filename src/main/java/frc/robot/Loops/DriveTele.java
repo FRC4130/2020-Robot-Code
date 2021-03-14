@@ -13,11 +13,15 @@ public class DriveTele implements ILoopable{
     DriveTrain _drive;
     Joystick _joystick;
 
+    public boolean _turn;
+
 
     public DriveTele() {
 
         _drive = Subsystems.driveTrain;
         _joystick = RobotMap.driverJoystick;
+
+        _turn = RobotMap.turn;
 
     }
 
@@ -59,13 +63,14 @@ public class DriveTele implements ILoopable{
          if(_joystick.getRawButton(13)) {
 
              _drive.resetSensors(20);
-             _drive.resetHeading();
 
          }
 
          if(_joystick.getRawButton(8)) {
 
             _drive.setPos(120000);
+            _drive.setHeading(72, true);
+            _drive.setPos(70000);
          }
 
     }
